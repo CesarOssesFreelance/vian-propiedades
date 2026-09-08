@@ -1,0 +1,58 @@
+<% content_for :title, "Características" %>
+
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% end %>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="my-5">Características</h1>
+  
+    <%= link_to "Nueva Característica",
+        new_caracteristica_path,
+        class: "btn btn-primary" %>
+  </div>
+  
+  <div class="card shadow-sm mb-5">
+    <div class="card-body p-0">
+      <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Clave</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <% @caracteristicas.each do |caracteristica| %>
+            <tr>
+              <td><%= caracteristica.id %></td>
+              <td><%= caracteristica.nombre %></td>
+              <td>
+                <code><%= caracteristica.clave %></code>
+              </td>
+              <td class="text-center">  
+                <%= link_to "Editar",
+                    edit_caracteristica_path(caracteristica),
+                    class: "btn btn-sm btn-outline-warning" %>
+  
+                <%= link_to "Eliminar",
+                    caracteristica,
+                    data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "¿Estás seguro?"
+                    },
+                    class: "btn btn-sm btn-outline-danger" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+es:
+  date:
+    formats:
+      default: "%d-%m-%Y"
+      short: "%d %b"
+      long: "%d de %B de %Y"
+    day_names:
+      - domingo
+      - lunes
+      - martes
+      - miércoles
+      - jueves
+      - viernes
+      - sábado
+    abbr_day_names:
+      - dom
+      - lun
+      - mar
+      - mié
+      - jue
+      - vie
+      - sáb
+    month_names:
+      -
+      - enero
+      - febrero
+      - marzo
+      - abril
+      - mayo
+      - junio
+      - julio
+      - agosto
+      - septiembre
+      - octubre
+      - noviembre
+      - diciembre
+    abbr_month_names:
+      -
+      - ene
+      - feb
+      - mar
+      - abr
+      - may
+      - jun
+      - jul
+      - ago
+      - sep
+      - oct
+      - nov
+      - dic
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%d-%m-%Y %H:%M"
+      short: "%d %b %H:%M"
+      long: "%d de %B de %Y a las %H:%M"
+    am: "am"
+    pm: "pm"
+
+  number:
+    currency:
+      format:
+        unit: "$"
+        separator: ","
+        delimiter: "."
+        format: "%u%n"
+        precision: 0
+    format:
+      separator: ","
+      delimiter: "."
+      precision: 2
+
+  helpers:
+    submit:
+      create: "Crear %{model}"
+      update: "Actualizar %{model}"
+      submit: "Guardar %{model}"
+    select:
+      prompt: "Seleccione una opción"
+
+  activerecord:
+    models:
+      caracteristica:
+        one: "Característica"
+        other: "Características"
+      propiedad:
+        one: "Propiedad"
+        other: "Propiedades"
+      propiedad_caracteristica:
+        one: "Característica de propiedad"
+        other: "Características de propiedad"
+      comuna:
+        one: "Comuna"
+        other: "Comunas"
+      region:
+        one: "Región"
+        other: "Regiones"
+
+    attributes:
+      caracteristica:
+        nombre: "Nombre"
+        clave: "Clave"
+
+      propiedad:
+        titulo: "Título"
+        descripcion: "Descripción"
+        precio: "Precio"
+        dormitorios: "Dormitorios"
+        banos: "Baños"
+        estacionamientos: "Estacionamientos"
+        metros_construidos: "Metros construidos"
+        metros_terreno: "Metros terreno"
+        piso: "Piso"
+        tipo_inmueble: "Tipo de inmueble"
+        comuna: "Comuna"
+        comuna_id: "Comuna"
+        created_at: "Fecha de creación"
+        updated_at: "Última actualización"
+
+      comuna:
+        nombre: "Nombre"
+        region: "Región"
+        region_id: "Región"
+
+      region:
+        nombre: "Nombre"
+
+    errors:
+      models:
+        caracteristica:
+          attributes:
+            nombre:
+              blank: "no puede estar en blanco"
+            clave:
+              blank: "no puede estar en blanco"
+              taken: "ya está en uso"
+
+      messages:
+        blank: "no puede estar en blanco"
+        taken: "ya está en uso"
+        invalid: "no es válido"
+        confirmation: "no coincide"
+        accepted: "debe ser aceptado"
+        empty: "no puede estar vacío"
+        too_short: "es demasiado corto"
+        too_long: "es demasiado largo"
+        wrong_length: "no tiene la longitud correcta"
+        not_a_number: "no es un número"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
+        equal_to: "debe ser igual a %{count}"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor o igual que %{count}"
+        other_than: "debe ser distinto de %{count}"
+        odd: "debe ser impar"
+        even: "debe ser par"

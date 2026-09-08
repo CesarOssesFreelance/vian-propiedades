@@ -1,0 +1,7 @@
+.borde-formularios {
+    /* background: #fff; */
+    border: 1px solid #c4c5c5;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 5px 5px 10px  rgba(0, 0, 0, 0.04);
+}

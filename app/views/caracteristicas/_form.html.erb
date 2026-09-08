@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+  <div class="col-6 mb-5">
+    <%= form_with(model: caracteristica) do |form| %>
+      <div class="mb-3">
+        <%= form.label :nombre, class:"form-label" %>
+        <%= form.text_field :nombre, class:"form-control"  %>
+        <% if caracteristica.errors[:nombre].any? %>
+          <p style="color:red;"> <%= caracteristica.errors[:nombre].first %></p>
+        <% end %>
+      </div>
+    
+      <div class="mb-5">
+        <%= form.label :clave, class:"form-label"  %>
+        <%= form.text_field :clave, class:"form-control"  %>
+        <% if caracteristica.errors[:clave].any? %>
+          <p style="color:red;"> <%= caracteristica.errors[:clave].first %></p>
+        <% end %>
+      </div>
+    
+      <div class="mb-5">
+        <%= form.submit nil, class:"btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>

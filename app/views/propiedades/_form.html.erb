@@ -1,0 +1,72 @@
+<%= form_with(model: propiedad) do |form| %>
+  <% if propiedad.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(propiedad.errors.count, "error") %> prohibited this propiedad from being saved:</h2>
+
+      <ul>
+        <% propiedad.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :titulo, style: "display: block" %>
+    <%= form.text_field :titulo %>
+  </div>
+
+  <div>
+    <%= form.label :descripcion, style: "display: block" %>
+    <%= form.textarea :descripcion %>
+  </div>
+
+  <div>
+    <%= form.label :precio, style: "display: block" %>
+    <%= form.number_field :precio %>
+  </div>
+
+  <div>
+    <%= form.label :dormitorios, style: "display: block" %>
+    <%= form.number_field :dormitorios %>
+  </div>
+
+  <div>
+    <%= form.label :banos, style: "display: block" %>
+    <%= form.number_field :banos %>
+  </div>
+
+  <div>
+    <%= form.label :estacionamientos, style: "display: block" %>
+    <%= form.number_field :estacionamientos %>
+  </div>
+
+  <div>
+    <%= form.label :metros_construidos, style: "display: block" %>
+    <%= form.number_field :metros_construidos %>
+  </div>
+
+  <div>
+    <%= form.label :metros_terreno, style: "display: block" %>
+    <%= form.number_field :metros_terreno %>
+  </div>
+
+  <div>
+    <%= form.label :piso, style: "display: block" %>
+    <%= form.number_field :piso %>
+  </div>
+
+  <div>
+    <%= form.label :tipo_inmueble, style: "display: block" %>
+    <%= form.number_field :tipo_inmueble %>
+  </div>
+
+  <div>
+    <%= form.label :comuna_id, style: "display: block" %>
+    <%= form.text_field :comuna_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

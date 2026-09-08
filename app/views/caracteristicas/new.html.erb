@@ -1,0 +1,13 @@
+<% content_for :title, "Agregar característica" %>
+
+<div class="container">
+  <div class="borde-formularios my-5">
+    <h1 class="text-center my-5 display-5">Agregar característica</h1>
+    <%= render "form", caracteristica: @caracteristica %>
+    <br>
+    <div class="text-center">
+      <%= link_to "Volver a características", caracteristicas_path, class:"btn btn-dark" %>
+    </div>
+  </div>
+
+</div>
