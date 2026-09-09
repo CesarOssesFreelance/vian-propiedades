@@ -1,10 +1,67 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @propiedad %>
-
-<div>
-  <%= link_to "Edit this propiedad", edit_propiedad_path(@propiedad) %> |
-  <%= link_to "Back to propiedades", propiedades_path %>
-
-  <%= button_to "Destroy this propiedad", @propiedad, method: :delete %>
-</div>
+<% content_for :title, "#{@propiedad.titulo} | Vian Propiedades" %>
+<section class="vian-page-heading">
+  <div class="container">
+    <%= link_to "← Volver a propiedades", propiedades_path, class: "text-white" %>
+    <h1 class="mt-3"><%= @propiedad.titulo %></h1>
+    <p><%= @propiedad.comuna.nombre %> · <%= @propiedad.comuna.region.nombre %></p>
+  </div>
+</section>
+<section class="site-section site-section-sm bg-light">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <%= render "gallery", propiedad: @propiedad %>
+        <div class="bg-white p-4 p-md-5 mt-3">
+          <h2 class="h4 text-black">Descripción</h2>
+          <%= simple_format(@propiedad.descripcion.presence || "Descripción no disponible.") %>
+          <h2 class="h4 text-black mt-4">Características</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <% @propiedad.caracteristicas.each do |caracteristica| %>
+              <span class="vian-feature"><%= caracteristica.nombre %></span>
+            <% end %>
+          </div>
+          <% if @propiedad.caracteristicas.empty? %>
+            <p>No se han indicado características adicionales.</p>
+          <% end %>
+        </div>
+      </div>
+      <aside class="col-lg-4">
+        <% if (video_src = youtube_embed_url(@propiedad.video_url)) %>
+          <section class="bg-white p-3 border rounded mb-3" aria-labelledby="property-video-title">
+            <h2 id="property-video-title" class="h5 text-black mb-3">Video de la propiedad</h2>
+            <iframe src="<%= video_src %>" class="vian-property-video"
+              title="Video de <%= @propiedad.titulo %>" loading="lazy"
+              allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </section>
+        <% end %>
+        <div class="bg-white p-4 border rounded">
+          <span class="text-uppercase"><%= tipo_propiedad(@propiedad) %></span>
+          <p class="h3 text-success my-3">
+            <%= precio_propiedad(@propiedad) %>
+            <small>CLP</small>
+          </p>
+          <dl class="vian-facts">
+            <% [["Dormitorios", @propiedad.dormitorios], ["Baños", @propiedad.banos], ["Estacionamientos", @propiedad.estacionamientos], ["Construidos (m²)", @propiedad.metros_construidos], ["Terreno (m²)", @propiedad.metros_terreno], ["Piso", @propiedad.piso]].each do |etiqueta, valor| %>
+              <div>
+                <dt><%= etiqueta %></dt>
+                <dd><%= valor || "No informado" %></dd>
+              </div>
+            <% end %>
+          </dl>
+          <%= link_to "https://wa.me/56994798433", class: "btn vian-whatsapp-contact w-100 rounded-0 mb-3", target: "_blank", rel: "noopener noreferrer" do %>
+            <%= render "shared/whatsapp_icon" %>
+            <span>Contáctanos</span>
+          <% end %>
+          <%= link_to "Explorar más propiedades", propiedades_path, class: "btn vian-public-button btn-success w-100 rounded-0" %>
+          <% if current_user&.admin? || current_user&.corredor? %>
+            <%= link_to "Editar propiedad", edit_propiedad_path(@propiedad), class: "btn btn-outline-secondary w-100 mt-3" %>
+          <% end %>
+          <% if current_user&.admin? %>
+            <%= button_to "Eliminar propiedad", @propiedad, method: :delete, class: "btn btn-danger w-100 mt-3", data: { turbo_confirm: "¿Estás seguro de eliminar esta propiedad?" } %>
+          <% end %>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_15_202723) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_09_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,7 +48,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_202723) do
     t.string "nombre", null: false
     t.datetime "updated_at", null: false
     t.index ["clave"], name: "index_caracteristicas_on_clave", unique: true
-    t.index ["nombre"], name: "index_caracteristicas_on_nombre"
+    t.index ["nombre"], name: "index_caracteristicas_on_nombre", unique: true
   end
 
   create_table "comunas", force: :cascade do |t|
@@ -76,23 +76,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_202723) do
     t.bigint "comuna_id", null: false
     t.datetime "created_at", null: false
     t.text "descripcion"
+    t.boolean "destacada", default: false, null: false
     t.integer "dormitorios"
     t.integer "estacionamientos"
     t.integer "metros_construidos"
     t.integer "metros_terreno"
     t.integer "piso"
     t.integer "precio", null: false
+    t.boolean "publicada", default: false, null: false
+    t.string "slug"
     t.integer "tipo_inmueble", null: false
+    t.integer "tipo_transaccion", null: false
     t.string "titulo", null: false
     t.datetime "updated_at", null: false
+    t.string "video_url"
     t.index ["banos"], name: "index_propiedades_on_banos"
+    t.index ["comuna_id", "precio"], name: "index_propiedades_on_comuna_id_and_precio"
     t.index ["comuna_id", "tipo_inmueble"], name: "index_propiedades_on_comuna_id_and_tipo_inmueble"
+    t.index ["comuna_id", "tipo_transaccion"], name: "index_propiedades_on_comuna_id_and_tipo_transaccion"
     t.index ["comuna_id"], name: "index_propiedades_on_comuna_id"
     t.index ["created_at"], name: "index_propiedades_on_created_at"
+    t.index ["destacada"], name: "index_propiedades_on_destacada"
     t.index ["dormitorios"], name: "index_propiedades_on_dormitorios"
     t.index ["precio", "tipo_inmueble"], name: "index_propiedades_on_precio_and_tipo_inmueble"
     t.index ["precio"], name: "index_propiedades_on_precio"
+    t.index ["publicada"], name: "index_propiedades_on_publicada"
+    t.index ["slug"], name: "index_propiedades_on_slug", unique: true
+    t.index ["tipo_inmueble", "tipo_transaccion"], name: "index_propiedades_on_tipo_inmueble_and_tipo_transaccion"
     t.index ["tipo_inmueble"], name: "index_propiedades_on_tipo_inmueble"
+    t.index ["tipo_transaccion"], name: "index_propiedades_on_tipo_transaccion"
   end
 
   create_table "regiones", force: :cascade do |t|
@@ -100,6 +112,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_15_202723) do
     t.string "nombre", null: false
     t.datetime "updated_at", null: false
     t.index ["nombre"], name: "index_regiones_on_nombre", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "apellido_materno"
+    t.string "apellido_paterno"
+    t.datetime "created_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "nombre"
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.integer "role"
+    t.string "rut"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["rut"], name: "index_users_on_rut", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

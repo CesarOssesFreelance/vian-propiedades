@@ -1,0 +1,49 @@
+<% content_for :title, "Crear cuenta | Vian Propiedades" %>
+<section class="vian-auth bg-light" aria-labelledby="auth-title">
+  <div class="vian-auth-card bg-white border p-4 p-md-5">
+    <h1 id="auth-title" class="h2 text-center text-black mb-4">Crear cuenta</h1>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <% if resource.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+          <p>No pudimos crear tu cuenta. Revisa los siguientes datos:</p>
+          <ul class="mb-0">
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form-group">
+        <%= f.label :nombre, "Nombre", class: "text-black" %>
+        <%= f.text_field :nombre, autocomplete: "given-name", class: "form-control", required: true, autofocus: true %>
+      </div>
+      <div class="form-group">
+        <%= f.label :apellido_paterno, "Apellido paterno", class: "text-black" %>
+        <%= f.text_field :apellido_paterno, autocomplete: "family-name", class: "form-control", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.label :apellido_materno, "Apellido materno (opcional)", class: "text-black" %>
+        <%= f.text_field :apellido_materno, autocomplete: "additional-name", class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :rut, "RUT", class: "text-black" %>
+        <%= f.text_field :rut, autocomplete: "off", class: "form-control", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.label :email, "Correo electrónico", class: "text-black" %>
+        <%= f.email_field :email, autocomplete: "email", class: "form-control", required: true %>
+      </div>
+      <div class="form-group">
+        <%= f.label :password, "Contraseña", class: "text-black" %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: true, minlength: @minimum_password_length, aria: { describedby: "password-hint" } %>
+        <small id="password-hint" class="form-text text-muted">Mínimo <%= @minimum_password_length %> caracteres.</small>
+      </div>
+      <div class="form-group">
+        <%= f.label :password_confirmation, "Confirmar contraseña", class: "text-black" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: true %>
+      </div>
+      <%= f.submit "Crear cuenta", class: "btn vian-auth-button py-2 px-4 rounded-0 w-100" %>
+    <% end %>
+    <p class="text-center mt-4 mb-0">¿Ya tienes una cuenta? <%= link_to "Iniciar sesión", new_session_path(resource_name) %></p>
+  </div>
+</section>

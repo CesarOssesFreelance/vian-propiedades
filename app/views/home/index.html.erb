@@ -1,1 +1,23 @@
-<%= render 'shared/home/hero' %>
+<%= render "shared/home/hero" %>
+<section class="site-section site-section-sm bg-light">
+  <div class="container">
+    <div class="vian-home-search">
+      <%= render "shared/home/filtro_propiedades" %>
+    </div>
+    <div class="site-section-title my-5">
+      <h2>Propiedades destacadas</h2>
+      <p>Descubre nuestras propiedades destacadas y otras opciones del catálogo.</p>
+    </div>
+    <div class="row">
+      <%= render partial: "shared/card_propiedades", collection: @propiedades, as: :propiedad %>
+    </div>
+    <% if @propiedades.empty? %>
+      <p class="bg-white p-4">Pronto encontrarás nuevas propiedades aquí.</p>
+    <% end %>
+    <div class="text-center mt-4">
+      <%= link_to "Ver todas las propiedades", propiedades_path, class: "btn vian-public-button btn-success px-5 py-3 rounded-0" %>
+    </div>
+  </div>
+</section>
+
+<%= render "shared/home/contacto" %>

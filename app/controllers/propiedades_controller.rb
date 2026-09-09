@@ -1,9 +1,21 @@
 class PropiedadesController < ApplicationController
+  before_action :authenticate_user!, except: %i[ index show ]
+  before_action :authorize_catalog_management!, except: %i[ index show ]
   before_action :set_propiedad, only: %i[ show edit update destroy ]
 
   # GET /propiedades or /propiedades.json
   def index
-    @propiedades = Propiedad.all
+    @comunas = Comuna.where(id: Propiedad.select(:comuna_id)).order(:nombre)
+    @propiedades = Propiedad.includes(:comuna).preload(imagenes_attachments: :blob)
+    @propiedades = @propiedades.where(comuna_id: params[:comuna_id]) if params[:comuna_id].present?
+    @propiedades = @propiedades.where(tipo_inmueble: params[:tipo_inmueble]) if params[:tipo_inmueble].present?
+    if Propiedad.defined_enums.fetch("tipo_transaccion").key?(params[:tipo_transaccion])
+      @propiedades = @propiedades.where(tipo_transaccion: params[:tipo_transaccion])
+    end
+    if params[:precio_max].to_s.match?(/\A\d+\z/)
+      @propiedades = @propiedades.where("precio <= ?", params[:precio_max].to_i)
+    end
+    @propiedades = @propiedades.order(destacada: :desc, created_at: :desc, id: :desc)
   end
 
   # GET /propiedades/1 or /propiedades/1.json
@@ -60,11 +72,22 @@ class PropiedadesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_propiedad
-      @propiedad = Propiedad.find(params.expect(:id))
+      @propiedad = Propiedad.friendly.find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.
     def propiedad_params
-      params.expect(propiedad: [ :titulo, :descripcion, :precio, :dormitorios, :banos, :estacionamientos, :metros_construidos, :metros_terreno, :piso, :tipo_inmueble, :comuna_id ])
+      attributes = params.expect(propiedad: [
+        :titulo, :descripcion, :precio, :dormitorios, :banos, :estacionamientos,
+        :metros_construidos, :metros_terreno, :piso, :tipo_inmueble,
+        :tipo_transaccion, :destacada, :publicada, :comuna_id,
+        :video_url, :imagen_principal, imagenes: [], caracteristica_ids: []
+      ])
+      attributes.delete(:imagen_principal) if attributes[:imagen_principal].blank?
+      uploads = attributes.delete(:imagenes)&.reject(&:blank?)
+      if uploads.present?
+        attributes[:imagenes] = (@propiedad&.imagenes&.blobs&.to_a || []) + uploads
+      end
+      attributes
     end
 end

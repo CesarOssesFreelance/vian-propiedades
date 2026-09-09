@@ -204,6 +204,9 @@ GEM
       net-imap
       net-pop
       net-smtp
+    mail_form (1.11.0)
+      actionpack (>= 7.0)
+      activemodel (>= 7.0)
     marcel (1.2.1)
     matrix (0.4.3)
     meta-tags (2.23.0)
@@ -461,6 +464,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  mail_form
   meta-tags
   pagy
   pg (~> 1.1)

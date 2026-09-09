@@ -1,12 +1,9 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Carga repetible, sin borrar registros existentes: bin/rails db:seed.
+ActiveRecord::Base.transaction do
+  load Rails.root.join("db/seeds/regiones_comunas.rb")
+  load Rails.root.join("db/seeds/caracteristicas.rb")
 
-# require_relative "./seeds/regiones_comunas"
-require_relative "./seeds/caracteristicas"
+  if Rails.env.development? || Rails.env.test?
+    load Rails.root.join("db/seeds/demo.rb")
+  end
+end

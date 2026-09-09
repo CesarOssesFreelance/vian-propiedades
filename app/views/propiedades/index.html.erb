@@ -1,16 +1,30 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Propiedades" %>
-
-<h1>Propiedades</h1>
-
-<div id="propiedades">
-  <% @propiedades.each do |propiedad| %>
-    <%= render propiedad %>
-    <p>
-      <%= link_to "Show this propiedad", propiedad %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New propiedad", new_propiedad_path %>
+<% content_for :title, "Propiedades | Vian Propiedades" %>
+<section class="vian-page-heading">
+  <div class="container">
+    <p>Encuentra tu próximo hogar</p>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+      <h1 class="mb-0">Nuestras propiedades</h1>
+      <% if user_signed_in? %>
+        <%= link_to "Nueva propiedad", new_propiedad_path, class: "btn btn-success rounded-0 mt-3 mt-md-0 align-self-start align-self-md-center" %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<section class="site-section site-section-sm bg-light">
+  <div class="container">
+    <%= render "shared/home/filtro_propiedades" %>
+    <div class="d-flex justify-content-between align-items-center my-4">
+      <p class="mb-0"><%= @propiedades.size %> propiedades encontradas</p>
+    </div>
+    <div class="row" id="propiedades">
+      <%= render partial: "shared/card_propiedades", collection: @propiedades, as: :propiedad %>
+    </div>
+    <% if @propiedades.empty? %>
+      <div class="bg-white p-5 text-center">
+        <h2 class="h4">No encontramos propiedades</h2>
+        <p>Prueba otra comuna, tipo de propiedad o un precio máximo más alto.</p>
+        <%= link_to "Ver todo el catálogo", propiedades_path, class: "btn vian-public-button btn-success" %>
+      </div>
+    <% end %>
+  </div>
+</section>

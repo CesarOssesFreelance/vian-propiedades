@@ -5,5 +5,5 @@ one:
   clave: MyString
 
 two:
-  nombre: MyString
-  clave: MyString
+  nombre: Otra característica
+  clave: OtroValor

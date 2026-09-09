@@ -1,0 +1,32 @@
+<div class="col-md-6 col-lg-4 mb-4">
+  <article class="property-entry h-100">
+    <%= link_to propiedad, class: "property-thumbnail" do %>
+      <div class="offer-type-wrap">
+        <span class="offer-type bg-success"><%= propiedad.tipo_transaccion.humanize %></span>
+        <% if propiedad.destacada? %>
+          <span class="offer-type bg-primary">Destacada</span>
+        <% end %>
+      </div>
+      <%= image_tag imagen_propiedad(propiedad), alt: propiedad.titulo, class: "img-fluid vian-card-image", loading: "lazy" %>
+    <% end %>
+    <div class="p-4 property-body">
+      <% unless propiedad.imagenes.any? %>
+        <small class="text-muted">Imagen referencial</small>
+      <% end %>
+      <h2 class="property-title"><%= link_to propiedad.titulo, propiedad %></h2>
+      <span class="property-location d-block mb-3"><%= propiedad.comuna.nombre %></span>
+      <strong class="property-price text-success mb-3 d-block">
+        <%= precio_propiedad(propiedad) %>
+        <small>CLP</small>
+      </strong>
+      <ul class="property-specs-wrap mb-0">
+        <% [["Dormitorios", propiedad.dormitorios], ["Baños", propiedad.banos], ["Construidos", propiedad.metros_construidos && "#{propiedad.metros_construidos} m²"]].each do |etiqueta, valor| %>
+          <li>
+            <span class="property-specs"><%= etiqueta %></span>
+            <span class="property-specs-number"><%= valor || "—" %></span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </article>
+</div>

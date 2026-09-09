@@ -4,4 +4,4 @@ one:
   nombre: MyString
 
 two:
-  nombre: MyString
+  nombre: OtroValor

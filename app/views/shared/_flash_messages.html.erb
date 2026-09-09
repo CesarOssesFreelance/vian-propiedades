@@ -1,0 +1,7 @@
+<% flash.each do |tipo, mensaje| %>
+  <div class="">
+    <div class="alert <%= tipo == "notice" ? "alert-success" : "alert-danger" %>" role="status">
+      <%= mensaje %>
+    </div>
+  </div>
+<% end %>

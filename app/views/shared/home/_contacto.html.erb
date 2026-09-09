@@ -1,0 +1,59 @@
+<section id="contacto" class="site-section" aria-labelledby="contacto-titulo">
+  <div class="container">
+    <div class="site-section-title text-center mb-5">
+      <h2 id="contacto-titulo">Contáctanos</h2>
+      <p>Cuéntanos qué propiedad estás buscando o si necesitas vender o arrendar.</p>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <%= form_with model: (@contacto || Contacto.new), url: contacto_path(anchor: "contacto"), class: "vian-contact-form p-4 p-md-5 bg-white border", data: { turbo: false } do |form| %>
+          <% if form.object.errors.any? %>
+            <div class="alert alert-danger" role="alert">
+              <p>Revisa los datos del formulario:</p>
+              <ul class="mb-0">
+                <% form.object.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <div hidden aria-hidden="true">
+            <%= form.text_field :website, tabindex: -1, autocomplete: "off" %>
+          </div>
+          <div class="row form-group mb-3">
+            <div class="col-md-12">
+              <label class="font-weight-bold text-black" for="contacto-nombre">Nombre completo</label>
+              <%= form.text_field :nombre, id: "contacto-nombre", class: "form-control", autocomplete: "name", required: true %>
+            </div>
+          </div>
+          <div class="row form-group mb-3">
+            <div class="col-md-12">
+              <label class="font-weight-bold text-black" for="contacto-email">Correo electrónico</label>
+              <%= form.email_field :email, id: "contacto-email", class: "form-control", autocomplete: "email", required: true %>
+            </div>
+          </div>
+          <div class="row form-group mb-3">
+            <div class="col-md-12">
+              <label class="font-weight-bold text-black" for="contacto-asunto">Asunto</label>
+              <%= form.text_field :asunto, id: "contacto-asunto", class: "form-control",  required: true %>
+            </div>
+          </div>
+          <div class="row form-group mb-3">
+            <div class="col-md-12">
+              <label class="font-weight-bold text-black" for="contacto-mensaje">Mensaje</label>
+              <%= form.text_area :mensaje, id: "contacto-mensaje", rows: 5, class: "form-control", required: true %>
+            </div>
+          </div>
+          <div class="row form-group mb-0">
+            <div class="col-md-12 text-center">
+              <button type="submit" class="btn vian-public-button btn-primary py-2 px-4 rounded-0">Enviar mensaje</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-lg-6 mt-4 mt-lg-0 d-flex align-items-center justify-content-center">
+        <%= image_tag "logo_vian_transparente.png", alt: "Vian Propiedades", class: "vian-contact-logo", loading: "lazy" %>
+      </div>
+    </div>
+  </div>
+</section>

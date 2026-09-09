@@ -1,8 +1,3 @@
-puts "Limpiando datos..."
-
-Comuna.destroy_all
-Region.destroy_all
-
 puts "Creando regiones y comunas de Chile..."
 
 regiones = {
@@ -296,10 +291,10 @@ regiones = {
 }
 
 regiones.each do |region_nombre, comunas|
-  region = Region.create!(nombre: region_nombre)
+  region = Region.find_or_create_by!(nombre: region_nombre)
 
   comunas.each do |comuna_nombre|
-    Comuna.create!(
+    Comuna.find_or_create_by!(
       nombre: comuna_nombre,
       region: region
     )

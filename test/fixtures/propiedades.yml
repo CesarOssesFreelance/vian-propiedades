@@ -1,6 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  slug: departamento-uno
   titulo: MyString
   descripcion: MyText
   precio: 1
@@ -10,10 +11,14 @@ one:
   metros_construidos: 1
   metros_terreno: 1
   piso: 1
-  tipo_inmueble: 1
+  tipo_inmueble: departamento
+  tipo_transaccion: venta
+  destacada: false
+  publicada: true
   comuna: one
 
 two:
+  slug: departamento-dos
   titulo: MyString
   descripcion: MyText
   precio: 1
@@ -23,5 +28,8 @@ two:
   metros_construidos: 1
   metros_terreno: 1
   piso: 1
-  tipo_inmueble: 1
+  tipo_inmueble: departamento
+  tipo_transaccion: venta
+  destacada: false
+  publicada: true
   comuna: two

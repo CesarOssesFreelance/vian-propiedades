@@ -1,9 +1,8 @@
-<%= form_with(model: propiedad) do |form| %>
+<%= form_with(model: propiedad, class: "vian-property-form bg-white border p-4 p-md-5") do |form| %>
   <% if propiedad.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(propiedad.errors.count, "error") %> prohibited this propiedad from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" role="alert">
+      <p>No pudimos guardar la propiedad. Revisa los siguientes datos:</p>
+      <ul class="mb-0">
         <% propiedad.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,62 +10,136 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :titulo, style: "display: block" %>
-    <%= form.text_field :titulo %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-4">Información general</legend>
+    <div class="form-group mb-3">
+      <%= form.label :titulo, "Título", class: "text-black" %>
+      <%= form.text_field :titulo, class: "form-control", placeholder: "Ej.: Casa con jardín en Ñuñoa" %>
+    </div>
+    <div class="form-group mb-3">
+      <%= form.label :descripcion, "Descripción", class: "text-black" %>
+      <%= form.textarea :descripcion, class: "form-control", rows: 5, placeholder: "Describe los espacios y los detalles de la propiedad" %>
+    </div>
+    <div class="row">
+      <div class="col-md-6 form-group mb-3">
+        <%= form.label :tipo_inmueble, "Tipo de propiedad", class: "text-black" %>
+        <%= form.select :tipo_inmueble, Propiedad.tipo_inmuebles.keys.map { |tipo| [tipo.humanize, tipo] }, { include_blank: "Selecciona un tipo" }, class: "form-control", required: true %>
+      </div>
+      <div class="col-md-6 form-group mb-3">
+        <%= form.label :comuna_id, "Comuna", class: "text-black" %>
+        <%= form.collection_select :comuna_id, Comuna.order(:nombre), :id, :nombre, { prompt: "Selecciona una comuna" }, class: "form-control" %>
+      </div>
+    </div>
+    <div class="form-group mb-3">
+      <%= form.label :tipo_transaccion, "Tipo de transacción", class: "text-black" %>
+      <%= form.select :tipo_transaccion, Propiedad.defined_enums.fetch("tipo_transaccion").keys.map { |tipo| [tipo.humanize, tipo] }, { include_blank: "Selecciona venta o arriendo" }, class: "form-control", required: true %>
+    </div>
+    <div class="form-group mb-0">
+      <%= form.label :precio, "Precio ($)", class: "text-black" %>
+      <%= form.number_field :precio, class: "form-control" %>
+    </div>
+  </fieldset>
 
-  <div>
-    <%= form.label :descripcion, style: "display: block" %>
-    <%= form.textarea :descripcion %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-4">Distribución y superficie</legend>
+    <div class="row">
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :dormitorios, "Dormitorios", class: "text-black" %>
+        <%= form.number_field :dormitorios, class: "form-control" %>
+      </div>
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :banos, "Baños", class: "text-black" %>
+        <%= form.number_field :banos, class: "form-control" %>
+      </div>
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :estacionamientos, "Estacionamientos", class: "text-black" %>
+        <%= form.number_field :estacionamientos, class: "form-control" %>
+      </div>
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :metros_construidos, "Superficie construida (m²)", class: "text-black" %>
+        <%= form.number_field :metros_construidos, class: "form-control" %>
+      </div>
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :metros_terreno, "Superficie de terreno (m²)", class: "text-black" %>
+        <%= form.number_field :metros_terreno, class: "form-control" %>
+      </div>
+      <div class="col-sm-6 col-lg-4 form-group mb-3">
+        <%= form.label :piso, "Piso", class: "text-black" %>
+        <%= form.number_field :piso, class: "form-control" %>
+      </div>
+    </div>
+  </fieldset>
 
-  <div>
-    <%= form.label :precio, style: "display: block" %>
-    <%= form.number_field :precio %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-3">Características</legend>
+    <p class="text-muted">Selecciona las características que tiene la propiedad.</p>
+    <% opciones = Caracteristica.order(:nombre) %>
+    <div class="row">
+      <%= form.collection_check_boxes :caracteristica_ids, opciones, :id, :nombre do |opcion| %>
+        <div class="col-sm-6 col-lg-4 mb-2">
+          <%= opcion.label class: "vian-characteristic-option border px-3 py-2 mb-0" do %>
+            <%= opcion.check_box %>
+            <span><%= opcion.text %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <% if opciones.empty? %>
+      <p class="text-muted mb-0">Aún no hay características disponibles.</p>
+    <% end %>
+  </fieldset>
 
-  <div>
-    <%= form.label :dormitorios, style: "display: block" %>
-    <%= form.number_field :dormitorios %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-4">Imágenes</legend>
+    <div class="form-group mb-3">
+      <%= form.label :imagen_principal, "Imagen principal", class: "text-black" %>
+      <%= form.file_field :imagen_principal, accept: "image/*", class: "form-control vian-file-input", aria: { describedby: "imagen-principal-ayuda" } %>
+      <small id="imagen-principal-ayuda" class="form-text text-muted">Selecciona una imagen. Al editar, una nueva imagen reemplazará la actual.</small>
+      <% if propiedad.imagen_principal.attached? %>
+        <p class="mt-2 mb-0">Imagen actual: <%= propiedad.imagen_principal.filename %></p>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= form.label :imagenes, "Imágenes de la galería", class: "text-black" %>
+      <%= form.file_field :imagenes, multiple: true, accept: "image/*", class: "form-control vian-file-input", aria: { describedby: "imagenes-ayuda" } %>
+      <small id="imagenes-ayuda" class="form-text text-muted">Puedes seleccionar varias imágenes. Se agregarán a las existentes.</small>
+      <% if propiedad.imagenes.attached? %>
+        <ul class="mt-2 mb-0">
+          <% propiedad.imagenes.each do |imagen| %>
+            <li><%= imagen.filename %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </fieldset>
 
-  <div>
-    <%= form.label :banos, style: "display: block" %>
-    <%= form.number_field :banos %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-4">Video</legend>
+    <div class="form-group">
+      <%= form.label :video_url, "URL de YouTube (opcional)", class: "text-black" %>
+      <%= form.url_field :video_url, class: "form-control", placeholder: "https://www.youtube.com/watch?v=...", aria: { describedby: "video-url-ayuda" } %>
+      <small id="video-url-ayuda" class="form-text text-muted">Pega el enlace del video de la propiedad. Puedes dejarlo vacío si no tiene video.</small>
+    </div>
+  </fieldset>
 
-  <div>
-    <%= form.label :estacionamientos, style: "display: block" %>
-    <%= form.number_field :estacionamientos %>
-  </div>
+  <fieldset class="mb-4">
+    <legend class="h4 text-black mb-4">Publicación</legend>
+    <div class="mb-2">
+      <%= form.label :publicada, class: "vian-characteristic-option border px-3 py-2 mb-0" do %>
+        <%= form.check_box :publicada %>
+        <span>Publicada</span>
+      <% end %>
+    </div>
+    <div class="mb-2">
+      <%= form.label :destacada, class: "vian-characteristic-option border px-3 py-2 mb-0" do %>
+        <%= form.check_box :destacada %>
+        <span>Destacada</span>
+      <% end %>
+    </div>
+  </fieldset>
 
-  <div>
-    <%= form.label :metros_construidos, style: "display: block" %>
-    <%= form.number_field :metros_construidos %>
-  </div>
-
-  <div>
-    <%= form.label :metros_terreno, style: "display: block" %>
-    <%= form.number_field :metros_terreno %>
-  </div>
-
-  <div>
-    <%= form.label :piso, style: "display: block" %>
-    <%= form.number_field :piso %>
-  </div>
-
-  <div>
-    <%= form.label :tipo_inmueble, style: "display: block" %>
-    <%= form.number_field :tipo_inmueble %>
-  </div>
-
-  <div>
-    <%= form.label :comuna_id, style: "display: block" %>
-    <%= form.text_field :comuna_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-flex flex-wrap align-items-center vian-property-actions">
+    <%= form.submit propiedad.persisted? ? "Guardar cambios" : "Crear propiedad", class: "btn btn-primary py-2 px-4 rounded-0" %>
+    <%= link_to "Cancelar", propiedad.persisted? ? propiedad_path(propiedad) : propiedades_path, class: "btn btn-outline-primary py-2 px-4 rounded-0" %>
   </div>
 <% end %>

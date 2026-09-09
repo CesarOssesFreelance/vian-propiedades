@@ -1,67 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <title><%= content_for(:title) || "Vian Propiedades" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Vian Propiedades">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "bootstrap.min", "style", "main", "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <%= render 'shared/navbar_principal' %>
-    <% if flash[:notice] %>
-      <div class=" alert alert-success my-0">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
-    <div class="site-loader"></div>
     <div class="site-wrap">
-    <main>
-      <%= yield %>
-    </main>
+      <%= render "shared/navbar_principal" %>
+      <%= render "shared/flash_messages" %>
+      <main id="contenido">
+        <%= yield %>
+      </main>
+      <%= render "shared/footer" %>
     </div>
-
-
-
-
-
-
-    <%= javascript_include_tag "bootstrap.bundle.min", defer: true %>
-    <%= javascript_include_tag "vendor/jquery-3.3.1.min" %>
-    <%= javascript_include_tag "vendor/jquery-migrate-3.0.1.min" %>
-    <%= javascript_include_tag "vendor/jquery-ui" %>
-
-    <%= javascript_include_tag "vendor/popper.min" %>
-
-    <%= javascript_include_tag "vendor/jquery.stellar.min" %>
-    <%= javascript_include_tag "vendor/owl.carousel.min" %>
-    <%= javascript_include_tag "vendor/slick.min" %>
-
-    <%= javascript_include_tag "vendor/jquery.magnific-popup.min" %>
-    <%= javascript_include_tag "vendor/jquery.countdown.min" %>
-    <%= javascript_include_tag "vendor/bootstrap-datepicker.min" %>
-
-    <%= javascript_include_tag "vendor/aos" %>
-    <%= javascript_include_tag "vendor/circleaudioplayer" %>
-    <%= javascript_include_tag "vendor/mediaelement-and-player.min" %>
-    <%= javascript_include_tag "vendor/player" %>
-
-    <%= javascript_include_tag "vendor/main" %>
+    <%= render "shared/whatsapp_button" %>
+    <button type="button"
+      class="vian-back-to-top"
+      data-controller="back-to-top"
+      data-action="scroll@window->back-to-top#update:passive pageshow@window->back-to-top#update click->back-to-top#scrollToTop"
+      aria-label="Volver arriba"
+      title="Volver arriba"
+      hidden>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M12 19V5M5 12l7-7 7 7" />
+      </svg>
+    </button>
   </body>
 </html>

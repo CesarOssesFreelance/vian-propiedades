@@ -1,0 +1,13 @@
+one:
+  email: admin@vian.example
+  nombre: Ana
+  apellido_paterno: Pérez
+  rut: 11111111-1
+  role: admin
+
+two:
+  email: corredor@vian.example
+  nombre: Diego
+  apellido_paterno: Soto
+  rut: 22222222-2
+  role: corredor

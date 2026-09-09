@@ -1,0 +1,23 @@
+<%= link_to "Inicio", root_path, class: (current_page?(root_path) ? "active" : nil) %>
+<div class="vian-nav-dropdown" data-controller="nav-dropdown" data-action="mouseenter->nav-dropdown#open mouseleave->nav-dropdown#leave focusout->nav-dropdown#blur keydown.esc->nav-dropdown#close click@window->nav-dropdown#outside">
+  <div class="vian-nav-dropdown-heading">
+    <%= link_to "Propiedades", propiedades_path, class: (controller_name == "propiedades" && !%w[new create].include?(action_name) ? "active" : nil) %>
+    <button type="button" class="vian-nav-dropdown-toggle" aria-label="Mostrar opciones de propiedades" aria-expanded="false" data-nav-dropdown-target="toggle" data-action="nav-dropdown#toggle">
+      <svg width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true" focusable="false">
+        <path transform="translate(0 960) scale(1 -1)" d="M316 604.667l196-196 196 196 60-60-256-256-256 256z" />
+      </svg>
+    </button>
+  </div>
+  <div class="vian-nav-dropdown-menu" data-nav-dropdown-target="menu" hidden>
+    <%= link_to "Arriendos", propiedades_path(tipo_transaccion: "arriendo") %>
+    <%= link_to "Ventas", propiedades_path(tipo_transaccion: "venta") %>
+  </div>
+</div>
+<%= link_to "Contacto", root_path(anchor: "contacto") %>
+<% if user_signed_in? %>
+  <%= link_to "Publicar propiedad", new_propiedad_path, class: (controller_name == "propiedades" && %w[new create].include?(action_name) ? "active" : nil) %>
+  <%= link_to "Características", caracteristicas_path, class: (controller_name == "caracteristicas" ? "active" : nil) %>
+  <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "nav-signout" %>
+<% else %>
+  <%= link_to "Acceso corredores", new_user_session_path, class: (devise_controller? ? "active" : nil) %>
+<% end %>

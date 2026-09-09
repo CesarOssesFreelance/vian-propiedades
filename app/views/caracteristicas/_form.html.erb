@@ -1,25 +1,27 @@
-<div class="row justify-content-center">
-  <div class="col-6 mb-5">
-    <%= form_with(model: caracteristica) do |form| %>
-      <div class="mb-3">
-        <%= form.label :nombre, class:"form-label" %>
-        <%= form.text_field :nombre, class:"form-control"  %>
-        <% if caracteristica.errors[:nombre].any? %>
-          <p style="color:red;"> <%= caracteristica.errors[:nombre].first %></p>
+<%= form_with(model: caracteristica, class: "bg-white border p-4 p-md-5") do |form| %>
+  <% if caracteristica.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <p>No pudimos guardar la característica. Revisa los siguientes datos:</p>
+      <ul class="mb-0">
+        <% caracteristica.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
-      </div>
-    
-      <div class="mb-5">
-        <%= form.label :clave, class:"form-label"  %>
-        <%= form.text_field :clave, class:"form-control"  %>
-        <% if caracteristica.errors[:clave].any? %>
-          <p style="color:red;"> <%= caracteristica.errors[:clave].first %></p>
-        <% end %>
-      </div>
-    
-      <div class="mb-5">
-        <%= form.submit nil, class:"btn btn-primary w-100" %>
-      </div>
-    <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :nombre, "Nombre", class: "text-black" %>
+    <%= form.text_field :nombre, class: "form-control", placeholder: "Ej.: Piscina" %>
   </div>
-</div>
+
+  <div class="form-group mb-4">
+    <%= form.label :clave, "Clave", class: "text-black" %>
+    <%= form.text_field :clave, class: "form-control", placeholder: "Ej.: piscina" %>
+  </div>
+
+  <div class="d-flex flex-wrap vian-characteristic-actions">
+    <%= form.submit caracteristica.persisted? ? "Guardar cambios" : "Crear característica", class: "btn btn-primary py-2 px-4 rounded-0" %>
+    <%= link_to "Cancelar", caracteristicas_path, class: "btn btn-outline-primary py-2 px-4 rounded-0" %>
+  </div>
+<% end %>

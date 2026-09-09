@@ -1,4 +1,6 @@
 class CaracteristicasController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authorize_catalog_management!
   before_action :set_caracteristica, only: %i[ edit update destroy ]
 
   # GET /caracteristicas or /caracteristicas.json
@@ -22,7 +24,7 @@ class CaracteristicasController < ApplicationController
 
     respond_to do |format|
       if @caracteristica.save
-        format.html { redirect_to @caracteristica, notice: "Caracteristica was successfully created." }
+        format.html { redirect_to caracteristicas_path, notice: "Caracteristica was successfully created." }
         format.json { render :show, status: :created, location: @caracteristica }
       else
         format.html { render :new, status: :unprocessable_content }
@@ -35,7 +37,7 @@ class CaracteristicasController < ApplicationController
   def update
     respond_to do |format|
       if @caracteristica.update(caracteristica_params)
-        format.html { redirect_to @caracteristica, notice: "Caracteristica was successfully updated.", status: :see_other }
+        format.html { redirect_to caracteristicas_path, notice: "Caracteristica was successfully updated.", status: :see_other }
         format.json { render :show, status: :ok, location: @caracteristica }
       else
         format.html { render :edit, status: :unprocessable_content }

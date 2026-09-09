@@ -1,13 +1,15 @@
-<% content_for :title, "Agregar característica" %>
+<% content_for :title, "Nueva característica | Vian Propiedades" %>
 
-<div class="container">
-  <div class="borde-formularios my-5">
-    <h1 class="text-center my-5 display-5">Agregar característica</h1>
-    <%= render "form", caracteristica: @caracteristica %>
-    <br>
-    <div class="text-center">
-      <%= link_to "Volver a características", caracteristicas_path, class:"btn btn-dark" %>
+<section class="site-section bg-light" aria-labelledby="characteristic-form-title">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="text-center mb-4">
+          <h1 id="characteristic-form-title" class="h2 text-black">Nueva característica</h1>
+          <p class="mb-0">Agrega un atributo para tus propiedades.</p>
+        </div>
+        <%= render "form", caracteristica: @caracteristica %>
+      </div>
     </div>
   </div>
-
-</div>
+</section>

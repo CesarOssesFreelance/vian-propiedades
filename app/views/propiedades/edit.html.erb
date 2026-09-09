@@ -1,12 +1,18 @@
-<% content_for :title, "Editing propiedad" %>
+<% content_for :title, "Editar propiedad | Vian Propiedades" %>
 
-<h1>Editing propiedad</h1>
-
-<%= render "form", propiedad: @propiedad %>
-
-<br>
-
-<div>
-  <%= link_to "Show this propiedad", @propiedad %> |
-  <%= link_to "Back to propiedades", propiedades_path %>
-</div>
+<section class="site-section bg-light" aria-labelledby="property-form-title">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="text-center mb-4">
+          <h1 id="property-form-title" class="h2 text-black">Editar propiedad</h1>
+          <p class="mb-0">Actualiza la información de la propiedad.</p>
+        </div>
+        <%= render "form", propiedad: @propiedad %>
+        <p class="text-center mt-4 mb-0">
+          <%= link_to "Volver a propiedades", propiedades_path %>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

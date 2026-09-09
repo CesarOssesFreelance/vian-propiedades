@@ -1,0 +1,28 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-7">
+        <h2 class="footer-heading mb-4">Vian Propiedades</h2>
+        <p>Encuentra tu próximo hogar. Explora nuestras propiedades y descubre sus espacios, ubicación y características.</p>
+      </div>
+      <div class="col-md-4 offset-md-1">
+        <h2 class="footer-heading mb-4">Explora</h2>
+        <ul class="list-unstyled">
+          <li>
+            <%= link_to "Inicio", root_path %>
+          </li>
+          <li>
+            <%= link_to "Todas las propiedades", propiedades_path %>
+          </li>
+          <li>
+            <%= link_to "Acceso corredores", new_user_session_path %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <p class="mt-5 mb-0 text-center">
+      <strong class="d-block">© <%= Date.current.year %> Vian Propiedades</strong>
+      <small class="vian-footer-credit">Basado en Homeland de Colorlib</small>
+    </p>
+  </div>
+</footer>

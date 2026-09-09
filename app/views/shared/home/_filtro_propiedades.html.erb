@@ -1,0 +1,28 @@
+<%= form_with url: propiedades_path, method: :get, class: "form-search", id: "buscador-propiedades", data: { turbo: false } do |form| %>
+  <div class="row g-3 align-items-end">
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :tipo_inmueble, "Tipo de propiedad" %>
+      <%= form.select :tipo_inmueble, options_for_select([["Casa", 0], ["Departamento", 1]], params[:tipo_inmueble]), { include_blank: "Todos los tipos" }, class: "form-control rounded-0" %>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :tipo_transaccion, "Venta o Arriendo" %>
+      <%= form.select :tipo_transaccion, options_for_select(Propiedad.defined_enums.fetch("tipo_transaccion").keys.map { |tipo| [tipo.humanize, tipo] }, params[:tipo_transaccion]), { include_blank: "Todas" }, class: "form-control rounded-0" %>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :comuna_id, "Comuna" %>
+      <%= form.select :comuna_id, options_from_collection_for_select(@comunas, :id, :nombre, params[:comuna_id]), { include_blank: "Todas las comunas" }, class: "form-control rounded-0" %>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <%= form.label :precio_max, "Precio máximo (CLP)" %>
+      <%= form.number_field :precio_max, value: params[:precio_max], min: 0, step: 1, placeholder: "Sin máximo", class: "form-control rounded-0" %>
+    </div>
+    <div class="col-md-9 mt-3">
+      <%= form.submit "Buscar propiedades", class: "btn vian-public-button btn-success py-2 px-4 w-100 rounded-0" %>
+    </div>
+    <div class="col-md-3 mt-3">
+      <%= link_to "Limpiar filtros",
+          controller_name == "home" ? root_path(anchor: "buscador-propiedades") : propiedades_path,
+          class: "btn vian-public-button btn-white btn-outline-white py-2 px-4 w-100 rounded-0" %>
+    </div>
+  </div>
+<% end %>
