@@ -42,14 +42,14 @@
             <small>CLP</small>
           </p>
           <dl class="vian-facts">
-            <% [["Dormitorios", @propiedad.dormitorios], ["Baños", @propiedad.banos], ["Estacionamientos", @propiedad.estacionamientos], ["Construidos (m²)", @propiedad.metros_construidos], ["Terreno (m²)", @propiedad.metros_terreno], ["Piso", @propiedad.piso]].each do |etiqueta, valor| %>
+            <% [["Dormitorios", @propiedad.dormitorios], ["Baños", @propiedad.banos], ["Estacionamientos", @propiedad.estacionamientos], [@propiedad.departamento? ? "Útil (m²)" : "Construidos (m²)", @propiedad.metros_construidos], [@propiedad.departamento? ? "Total (m²)" : "Terreno (m²)", @propiedad.metros_terreno], ["Piso", @propiedad.piso]].each do |etiqueta, valor| %>
               <div>
                 <dt><%= etiqueta %></dt>
                 <dd><%= valor || "No informado" %></dd>
               </div>
             <% end %>
           </dl>
-          <%= link_to "https://wa.me/56994798433", class: "btn vian-whatsapp-contact w-100 rounded-0 mb-3", target: "_blank", rel: "noopener noreferrer" do %>
+          <%= link_to propiedad_whatsapp_url(@propiedad), class: "btn vian-whatsapp-contact w-100 rounded-0 mb-3", target: "_blank", rel: "noopener noreferrer" do %>
             <%= render "shared/whatsapp_icon" %>
             <span>Contáctanos</span>
           <% end %>

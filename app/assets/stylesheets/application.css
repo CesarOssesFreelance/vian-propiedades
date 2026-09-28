@@ -264,6 +264,44 @@ summary:focus-visible {
   .form-search {
     padding: 24px;
   }
+
+  .vian-filters > .vian-filters-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--vian-navbar-background);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .vian-filters-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .vian-filters-toggle svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s ease;
+  }
+
+  .vian-filters[open] .vian-filters-toggle svg {
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .vian-filters:not([open]) > .form-search {
+    display: block;
+  }
 }
 
 .vian-auth {
@@ -333,6 +371,10 @@ summary:focus-visible {
 .vian-contact-form textarea.form-control {
   height: auto;
   resize: vertical;
+}
+
+.vian-filters-toggle {
+  display: none;
 }
 
 .vian-back-to-top {
@@ -436,6 +478,54 @@ summary:focus-visible {
   margin: 0;
 }
 
+.vian-social-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vian-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.vian-social-link:hover,
+.vian-social-link:focus-visible {
+  border-color: #fff;
+  color: #fff;
+  text-decoration: none;
+}
+
+.vian-social-link svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vian-social-link .vian-social-icon-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.vian-social-links-nav {
+  margin-left: 4px;
+}
+
+.vian-social-links-footer {
+  margin-top: 24px;
+}
+
 @media (max-width: 991px) {
   .vian-mobile-nav nav {
     gap: 4px;
@@ -448,6 +538,10 @@ summary:focus-visible {
     width: 100%;
     text-align: left;
     white-space: normal;
+  }
+
+  .vian-social-links-nav {
+    margin: 8px 0 0 10px;
   }
 }
 
@@ -465,7 +559,18 @@ summary:focus-visible {
   max-width: 440px;
   max-height: 520px;
   height: auto;
+  margin: 0 auto;
   object-fit: contain;
+}
+
+.vian-about-content {
+  max-width: 900px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.vian-about-content p:last-child {
+  margin-bottom: 0;
 }
 
 .vian-characteristic-option {
@@ -489,6 +594,51 @@ summary:focus-visible {
   accent-color: #364e68;
 }
 
+.vian-gallery-stage {
+  position: relative;
+}
+
+.vian-gallery-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12%;
+  min-width: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.vian-gallery-arrow-previous { left: 0; }
+.vian-gallery-arrow-next { right: 0; }
+
+.vian-gallery-arrow:hover,
+.vian-gallery-arrow:focus-visible {
+  opacity: 1;
+}
+
+.vian-gallery-arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+.vian-gallery-arrow svg {
+  width: 40px;
+  height: 40px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+}
+
 .vian-gallery-slide {
   display: block;
   width: 100%;
@@ -507,7 +657,6 @@ summary:focus-visible {
   object-fit: cover;
 }
 
-.vian-gallery-controls,
 .vian-gallery-modal-header {
   display: flex;
   align-items: center;
@@ -516,7 +665,6 @@ summary:focus-visible {
   padding: 12px;
 }
 
-.vian-gallery-controls button,
 .vian-gallery-modal-header button {
   min-width: 44px;
   min-height: 44px;
@@ -600,7 +748,6 @@ summary:focus-visible {
 .vian-hero-arrow,
 .vian-hero-arrow:hover,
 .vian-back-to-top,
-.vian-gallery-controls button,
 .vian-gallery-modal-header button {
   background: var(--vian-red);
   border-color: var(--vian-red);

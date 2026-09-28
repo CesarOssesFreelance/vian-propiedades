@@ -1,4 +1,4 @@
-<section id="contacto" class="site-section" aria-labelledby="contacto-titulo">
+<section id="contacto" class="site-section bg-light" aria-labelledby="contacto-titulo">
   <div class="container">
     <div class="site-section-title text-center mb-5">
       <h2 id="contacto-titulo">Contáctanos</h2>
@@ -38,13 +38,13 @@
               <%= form.text_field :asunto, id: "contacto-asunto", class: "form-control",  required: true %>
             </div>
           </div>
-          <div class="row form-group mb-3">
+          <div class="row form-group mb-5">
             <div class="col-md-12">
               <label class="font-weight-bold text-black" for="contacto-mensaje">Mensaje</label>
               <%= form.text_area :mensaje, id: "contacto-mensaje", rows: 5, class: "form-control", required: true %>
             </div>
           </div>
-          <div class="row form-group mb-0">
+          <div class="row form-group mb-0 mt-5">
             <div class="col-md-12 text-center">
               <button type="submit" class="btn vian-public-button btn-primary py-2 px-4 rounded-0">Enviar mensaje</button>
             </div>

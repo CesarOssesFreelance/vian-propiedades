@@ -4,6 +4,9 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get home_index_url
     assert_response :success
+    assert_select ".vian-whatsapp[href*='text=Hola%2C+me+interes%C3%B3+una+de+sus+propiedades']", count: 1
+    assert_select "a[aria-label='Vian Propiedades en Instagram'][target='_blank']", count: 3
+    assert_select "a[aria-label='Vian Propiedades en TikTok'][target='_blank']", count: 3
   end
   test "hero prioritizes featured properties then fills with newest normal properties" do
     Propiedad.update_all(publicada: false)
@@ -39,7 +42,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select ".vian-hero-controls", count: 0
   end
 
-  test "featured cards fill nine slots and show transaction and featured badges" do
+  test "featured cards fill six slots and show transaction and featured badges" do
     Propiedad.update_all(publicada: false)
     featured = 2.times.map { |i| create_hero_property(destacada: true, tipo_transaccion: :arriendo, created_at: (20 - i).days.ago) }
     normal = 10.times.map { |i| create_hero_property(created_at: (12 - i).days.ago) }
@@ -47,20 +50,20 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
     get root_url
     assert_response :success
-    assert_card_order(featured.reverse + normal.reverse.first(7))
+    assert_card_order(featured.reverse + normal.reverse.first(4))
     assert_select ".property-entry .offer-type.bg-primary", text: "Destacada", count: 2
     assert_select ".property-entry .offer-type.bg-success", text: "Arriendo", count: 2
-    assert_select ".property-entry .offer-type.bg-success", text: "Venta", count: 7
+    assert_select ".property-entry .offer-type.bg-success", text: "Venta", count: 4
   end
 
-  test "featured cards include only nine newest featured when there are enough" do
+  test "featured cards include only six newest featured when there are enough" do
     Propiedad.update_all(publicada: false)
     featured = 11.times.map { |i| create_hero_property(destacada: true, created_at: (20 - i).days.ago) }
     create_hero_property
 
     get root_url
-    assert_card_order(featured.reverse.first(9))
-    assert_select ".property-entry .offer-type.bg-primary", count: 9
+    assert_card_order(featured.reverse.first(6))
+    assert_select ".property-entry .offer-type.bg-primary", count: 6
   end
 
   test "featured cards show available normal properties without featured badges" do

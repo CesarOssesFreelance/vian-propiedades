@@ -21,3 +21,4 @@
 <% else %>
   <%= link_to "Acceso corredores", new_user_session_path, class: (devise_controller? ? "active" : nil) %>
 <% end %>
+<%= render "shared/social_links", location: "nav" %>

@@ -79,6 +79,12 @@ class PropiedadesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".vian-detail-image"
     assert_select ".vian-feature", text: @propiedad.caracteristicas.first.nombre
     assert_select "a[href=?]", edit_propiedad_path(@propiedad), count: 0
+    assert_select ".vian-whatsapp-contact" do |links|
+      message = URI.decode_www_form(URI.parse(links.first["href"]).query).to_h.fetch("text")
+      assert_includes message, @propiedad.titulo
+      assert_includes message, @propiedad.comuna.nombre
+      assert_includes message, propiedad_url(@propiedad)
+    end
   end
 
   test "form includes enum options and preserves saved values" do

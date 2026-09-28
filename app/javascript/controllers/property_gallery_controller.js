@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["slide", "dialog", "enlarged", "thumbnail", "counter", "pause"]
+  static targets = ["slide", "dialog", "enlarged", "thumbnail"]
 
   connect() {
     this.index = 0
@@ -24,13 +24,15 @@ export default class extends Controller {
     const image = this.slideTargets[this.index].querySelector("img")
     this.enlargedTarget.src = image.src
     this.enlargedTarget.alt = image.alt
-    this.thumbnailTargets.forEach((thumbnail, i) => thumbnail.setAttribute("aria-pressed", String(i === this.index)))
-    this.counterTargets.forEach(counter => { counter.textContent = `${this.index + 1} / ${this.slideTargets.length}` })
+    this.thumbnailTargets.forEach(thumbnail => {
+      const index = Number(thumbnail.dataset.propertyGalleryIndexParam)
+      thumbnail.setAttribute("aria-pressed", String(index === this.index))
+    })
   }
 
   next() { this.show(this.index + 1); this.restart() }
   previous() { this.show(this.index - 1); this.restart() }
-  select(event) { this.show(event.params.index) }
+  select(event) { this.show(event.params.index); this.restart() }
 
   open() {
     clearInterval(this.timer)
@@ -54,11 +56,9 @@ export default class extends Controller {
     if (event.key === "ArrowLeft") { event.preventDefault(); this.previous() }
   }
 
-  toggle() { this.paused = !this.paused; this.restart() }
 
   restart() {
     clearInterval(this.timer)
-    if (this.hasPauseTarget) this.pauseTarget.textContent = this.paused ? "Reanudar" : "Pausar"
     if (!this.paused && !this.dialogTarget.open && this.slideTargets.length > 1 && this.element.isConnected) {
       this.timer = setInterval(() => {
         if (!document.hidden && !this.element.contains(document.activeElement)) this.show(this.index + 1)

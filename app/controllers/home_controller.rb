@@ -3,7 +3,7 @@ class HomeController < ApplicationController
     @propiedades_hero = Propiedad.where(publicada: true).preload(imagenes_attachments: :blob)
                                 .order(destacada: :desc, created_at: :desc, id: :desc).limit(10)
     @propiedades = Propiedad.where(publicada: true).includes(:comuna).preload(imagenes_attachments: :blob)
-                            .order(destacada: :desc, created_at: :desc, id: :desc).limit(9)
+                            .order(destacada: :desc, created_at: :desc, id: :desc).limit(6)
     @comunas = Comuna.where(id: Propiedad.select(:comuna_id)).order(:nombre)
   end
   

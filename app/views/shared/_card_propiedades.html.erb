@@ -20,7 +20,7 @@
         <small>CLP</small>
       </strong>
       <ul class="property-specs-wrap mb-0">
-        <% [["Dormitorios", propiedad.dormitorios], ["Baños", propiedad.banos], ["Construidos", propiedad.metros_construidos && "#{propiedad.metros_construidos} m²"]].each do |etiqueta, valor| %>
+        <% [["Dormitorios", propiedad.dormitorios], ["Baños", propiedad.banos], [propiedad.departamento? ? "Útil" : "Construidos", propiedad.metros_construidos && "#{propiedad.metros_construidos} m²"]].each do |etiqueta, valor| %>
           <li>
             <span class="property-specs"><%= etiqueta %></span>
             <span class="property-specs-number"><%= valor || "—" %></span>

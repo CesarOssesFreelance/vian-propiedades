@@ -30,12 +30,12 @@
   </div>
 
   <div>
-    <strong>Metros construidos:</strong>
+    <strong><%= propiedad.departamento? ? "Útil (m²)" : "Metros construidos" %>:</strong>
     <%= propiedad.metros_construidos %>
   </div>
 
   <div>
-    <strong>Metros terreno:</strong>
+    <strong><%= propiedad.departamento? ? "Total (m²)" : "Metros terreno" %>:</strong>
     <%= propiedad.metros_terreno %>
   </div>
 

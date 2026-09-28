@@ -10,6 +10,21 @@ module PropiedadesHelper
   def imagen_propiedad(propiedad)
     propiedad.imagenes.first || "img_#{(propiedad.id % 8) + 1}.jpg"
   end
+
+  def propiedad_whatsapp_url(propiedad)
+    detalles = [
+      propiedad.titulo,
+      "#{propiedad.tipo_inmueble.humanize} en #{propiedad.tipo_transaccion}",
+      "Comuna: #{propiedad.comuna.nombre}",
+      "Precio: #{precio_propiedad(propiedad)} CLP",
+      ("Dormitorios: #{propiedad.dormitorios}" if propiedad.dormitorios.present?),
+      ("Baños: #{propiedad.banos}" if propiedad.banos.present?),
+      propiedad_url(propiedad)
+    ].compact
+
+    whatsapp_url("Hola, me interesó esta propiedad y me gustaría coordinar una visita:\n\n#{detalles.join("\n")}")
+  end
+
   def youtube_embed_url(url)
     return if url.blank?
 
