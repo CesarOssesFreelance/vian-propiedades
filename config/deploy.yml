@@ -7,7 +7,10 @@ image: vian_propiedades
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    hosts:
+      - 155.181.131.178
+    options:
+      add-host: host.docker.internal:host-gateway
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -20,30 +23,51 @@ servers:
 #
 # Don't use this when deploying to multiple web servers (then you have to terminate SSL at your load balancer).
 #
-# proxy:
-#   ssl: true
-#   host: app.example.com
+proxy:
+  ssl: true
+  hosts:
+    - vianpropiedades.cl
+    - www.vianpropiedades.cl
+
+deploy_timeout: 120
 
 # Where you keep your container images.
 registry:
   # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
+  server: 127.0.0.1:5555
 
   # Needed for authenticated registries.
-  # username: your-user
+  username: kamal
 
   # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
     - RAILS_MASTER_KEY
+    - VIAN_PROPIEDADES_DATABASE_PASSWORD
+    - SMTP_PASSWORD
+    - OCI_STORAGE_ACCESS_KEY_ID
+    - OCI_STORAGE_SECRET_ACCESS_KEY
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+    DB_HOST: 10.0.0.73
+    DB_PORT: 5432
+    RAILS_MAX_THREADS: 5
+    APP_HOST: vianpropiedades.cl
+    SMTP_USERNAME: vianpropiedades@gmail.com
+    SMTP_ADDRESS: smtp.gmail.com
+    SMTP_PORT: 587
+    SMTP_DOMAIN: gmail.com
+    CONTACT_EMAIL: vianpropiedades@gmail.com
+    OCI_STORAGE_REGION: sa-santiago-1
+    OCI_STORAGE_NAMESPACE: axmytvp4e1hf
+    OCI_STORAGE_BUCKET: vian-production
+    OCI_STORAGE_ENDPOINT: https://axmytvp4e1hf.compat.objectstorage.sa-santiago-1.oraclecloud.com
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -79,6 +103,9 @@ asset_path: /rails/public/assets
 # Configure the image builder.
 builder:
   arch: amd64
+  local: false
+  remote: ssh://vian-oracle
+  context: .
 
   # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
   # remote: ssh://docker@docker-builder-server
@@ -91,8 +118,11 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: ubuntu
+  keys:
+    - ~/.ssh/oracle_cloud
+  keys_only: true
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:

@@ -15,10 +15,10 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= ENV.fetch('POSTGRES_USER') %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
-  host: 127.0.0.1
-  port: 5432
+  username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -91,18 +91,18 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: vian_propiedades_production
-    username: vian_propiedades
+    database: vian_production
+    username: vian
     password: <%= ENV["VIAN_PROPIEDADES_DATABASE_PASSWORD"] %>
   cache:
     <<: *primary_production
-    database: vian_propiedades_production_cache
+    database: vian_production_cache
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: vian_propiedades_production_queue
+    database: vian_production_queue
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: vian_propiedades_production_cable
+    database: vian_production_cable
     migrations_paths: db/cable_migrate

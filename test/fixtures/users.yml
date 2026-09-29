@@ -1,13 +1,13 @@
 one:
-  email: admin@vian.example
+  email: superadmin@vian.example
   nombre: Ana
   apellido_paterno: Pérez
   rut: 11111111-1
-  role: admin
+  role: super_admin
 
 two:
-  email: corredor@vian.example
+  email: admin@vian.example
   nombre: Diego
   apellido_paterno: Soto
   rut: 22222222-2
-  role: corredor
+  role: admin

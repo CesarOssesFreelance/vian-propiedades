@@ -16,7 +16,13 @@
             <%= link_to "Todas las propiedades", propiedades_path %>
           </li>
           <li>
-            <%= link_to "Acceso corredores", new_user_session_path %>
+            <%= link_to new_user_session_path, class: "vian-footer-private-access" do %>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+              </svg>
+              <span>Área privada</span>
+            <% end %>
           </li>
         </ul>
       </div>

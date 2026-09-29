@@ -12,7 +12,7 @@ class Contacto < MailForm::Base
 
   def headers
     {
-      to: "vianpropiedades@gmail.com",
+      to: ENV.fetch("CONTACT_EMAIL", "vianpropiedades@gmail.com"),
       from: ENV.fetch("SMTP_USERNAME", "vianpropiedades@gmail.com"),
       reply_to: email,
       subject: "Contacto web Vian Propiedades"

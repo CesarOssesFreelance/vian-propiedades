@@ -1,0 +1,51 @@
+<% content_for :title, "Usuarios | Vian Propiedades" %>
+
+<section class="vian-page-heading">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+    <div>
+      <p>Administración de accesos</p>
+      <h1 class="mb-0">Usuarios</h1>
+    </div>
+    <%= link_to "Nuevo usuario", new_user_path, class: "btn btn-success rounded-0 mt-3 mt-md-0" %>
+  </div>
+</section>
+
+<section class="site-section site-section-sm bg-light">
+  <div class="container">
+    <div class="bg-white border p-3 p-md-4">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>RUT</th>
+              <th>Rol</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= [user.nombre, user.apellido_paterno, user.apellido_materno].compact_blank.join(" ") %></td>
+                <td><%= user.email %></td>
+                <td><%= user.rut %></td>
+                <td><%= user.super_admin? ? "Superadministrador" : "Administrador" %></td>
+                <td>
+                  <div class="d-flex justify-content-end gap-2">
+                    <%= link_to "Editar", edit_user_path(user), class: "btn btn-sm btn-outline-primary rounded-0" %>
+                    <% unless user == current_user %>
+                      <%= button_to "Eliminar", user, method: :delete,
+                          data: { turbo_confirm: "¿Estás seguro de eliminar este usuario?" },
+                          class: "btn btn-sm btn-outline-danger rounded-0" %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

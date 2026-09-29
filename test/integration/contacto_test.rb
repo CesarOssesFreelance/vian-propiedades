@@ -9,8 +9,9 @@ class ContactoTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to root_path(anchor: "contacto")
     mail = ActionMailer::Base.deliveries.last
-    assert_equal ["vianpropiedades@gmail.com"], mail.to
-    assert_equal ["ana@example.com"], mail.reply_to
+    assert_equal [ "vianpropiedades@gmail.com" ], mail.to
+    assert_equal [ "vianpropiedades@gmail.com" ], mail.from
+    assert_equal [ "ana@example.com" ], mail.reply_to
   end
 
   test "invalid contact preserves input without sending" do

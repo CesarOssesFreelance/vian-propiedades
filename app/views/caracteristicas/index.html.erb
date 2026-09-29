@@ -36,7 +36,7 @@
                   <td>
                     <div class="d-flex justify-content-end vian-characteristic-actions">
                       <%= link_to "Editar", edit_caracteristica_path(caracteristica), class: "btn btn-sm btn-outline-primary rounded-0" %>
-                      <% if current_user.admin? %>
+                      <% if current_user.admin? || current_user.super_admin? %>
                         <%= button_to "Eliminar", caracteristica, method: :delete,
                             data: { turbo_confirm: "¿Estás seguro de eliminar esta característica?" },
                             class: "btn btn-sm btn-outline-danger rounded-0" %>

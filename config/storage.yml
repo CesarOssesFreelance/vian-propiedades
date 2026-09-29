@@ -6,6 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+oracle:
+  service: S3
+  access_key_id: <%= ENV.fetch("OCI_STORAGE_ACCESS_KEY_ID") %>
+  secret_access_key: <%= ENV.fetch("OCI_STORAGE_SECRET_ACCESS_KEY") %>
+  region: <%= ENV.fetch("OCI_STORAGE_REGION", "sa-santiago-1") %>
+  bucket: <%= ENV.fetch("OCI_STORAGE_BUCKET", "vian-production") %>
+  endpoint: <%= ENV.fetch("OCI_STORAGE_ENDPOINT", "https://axmytvp4e1hf.compat.objectstorage.sa-santiago-1.oraclecloud.com") %>
+  force_path_style: true
+
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

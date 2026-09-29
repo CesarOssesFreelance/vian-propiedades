@@ -17,8 +17,18 @@
 <% if user_signed_in? %>
   <%= link_to "Publicar propiedad", new_propiedad_path, class: (controller_name == "propiedades" && %w[new create].include?(action_name) ? "active" : nil) %>
   <%= link_to "Características", caracteristicas_path, class: (controller_name == "caracteristicas" ? "active" : nil) %>
+  <% if current_user.super_admin? %>
+    <%= link_to "Usuarios", users_path, class: (controller_name == "users" ? "active" : nil) %>
+  <% end %>
   <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "nav-signout" %>
 <% else %>
-  <%= link_to "Acceso corredores", new_user_session_path, class: (devise_controller? ? "active" : nil) %>
+  <%= link_to new_user_session_path,
+      class: ["vian-private-access", (devise_controller? ? "active" : nil)],
+      aria: { label: "Área privada" }, title: "Área privada" do %>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+    </svg>
+  <% end %>
 <% end %>
 <%= render "shared/social_links", location: "nav" %>

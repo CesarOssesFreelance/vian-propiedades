@@ -1,1 +1,8 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+User-agent: *
+Allow: /
+Disallow: /users/
+Disallow: /caracteristicas/
+Disallow: /propiedades/new
+Disallow: /*/edit
+
+Sitemap: https://vianpropiedades.cl/sitemap.xml

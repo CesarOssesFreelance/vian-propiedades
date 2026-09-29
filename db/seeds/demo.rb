@@ -1,17 +1,3 @@
-# Cuentas ficticias para desarrollo y pruebas; no se restablecen contraseñas existentes.
-[
-  { email: "admin@vian.example", nombre: "Camila", apellido_paterno: "Soto",
-    apellido_materno: "Rojas", rut: "11111111-1", role: :admin },
-  { email: "corredor@vian.example", nombre: "Diego", apellido_paterno: "Muñoz",
-    apellido_materno: "Pérez", rut: "22222222-2", role: :corredor }
-].each do |atributos|
-  User.find_or_create_by!(email: atributos.fetch(:email)) do |user|
-    user.assign_attributes(atributos)
-    user.password = ENV.fetch("SEED_USER_PASSWORD", "VianDemo2026!")
-    user.password_confirmation = user.password
-  end
-end
-
 # Video genérico de demostración (Big Buck Bunny), no corresponde a las propiedades.
 video_demo = "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
 
@@ -51,4 +37,4 @@ caracteristicas = Caracteristica.all.index_by(&:clave)
   end
 end
 
-puts "Seed demo completado: 10 propiedades y usuarios admin@vian.example y corredor@vian.example."
+puts "Seed demo completado: 10 propiedades."

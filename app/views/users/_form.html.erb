@@ -1,0 +1,54 @@
+<%= form_with model: user do |form| %>
+  <% if user.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <ul class="mb-0">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <%= form.label :nombre, "Nombre", class: "text-black" %>
+      <%= form.text_field :nombre, required: true, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :apellido_paterno, "Apellido paterno", class: "text-black" %>
+      <%= form.text_field :apellido_paterno, required: true, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :apellido_materno, "Apellido materno", class: "text-black" %>
+      <%= form.text_field :apellido_materno, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :rut, "RUT", class: "text-black" %>
+      <%= form.text_field :rut, required: true, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :email, "Correo electrónico", class: "text-black" %>
+      <%= form.email_field :email, required: true, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :role, "Rol", class: "text-black" %>
+      <%= form.select :role,
+          [["Administrador", "admin"], ["Superadministrador", "super_admin"]],
+          {}, class: "form-control" %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :password, user.persisted? ? "Nueva contraseña" : "Contraseña", class: "text-black" %>
+      <%= form.password_field :password, required: user.new_record?, autocomplete: "new-password", class: "form-control" %>
+      <% if user.persisted? %><small class="form-text text-muted">Déjala en blanco para conservar la actual.</small><% end %>
+    </div>
+    <div class="form-group col-md-6">
+      <%= form.label :password_confirmation, "Confirmar contraseña", class: "text-black" %>
+      <%= form.password_field :password_confirmation, required: user.new_record?, autocomplete: "new-password", class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mt-3">
+    <%= form.submit user.new_record? ? "Crear usuario" : "Guardar cambios", class: "btn btn-success rounded-0" %>
+    <%= link_to "Cancelar", users_path, class: "btn btn-outline-secondary rounded-0" %>
+  </div>
+<% end %>

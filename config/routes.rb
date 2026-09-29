@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "users/registrations" }
+  devise_for :users, skip: :registrations
+  resources :users, except: :show
   resources :propiedades
   resources :caracteristicas, except: :show
-  get "home/index"
+  get "home/index", to: redirect("/", status: 301)
+  get "sitemap.xml", to: "seo#sitemap", defaults: { format: :xml }, as: :sitemap
   post "contacto", to: "home#contacto", as: :contacto
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -11,7 +13,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")

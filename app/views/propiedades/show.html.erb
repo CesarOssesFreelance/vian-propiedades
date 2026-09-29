@@ -1,4 +1,9 @@
 <% content_for :title, "#{@propiedad.titulo} | Vian Propiedades" %>
+<% content_for :seo_description, truncate(strip_tags(@propiedad.descripcion.presence || "#{tipo_propiedad(@propiedad)} en #{@propiedad.comuna.nombre}, disponible para #{@propiedad.tipo_transaccion}."), length: 160, separator: " ") %>
+<% content_for :seo_canonical_path, propiedad_path(@propiedad) %>
+<% seo_property_image = imagen_propiedad(@propiedad) %>
+<% content_for :seo_image, seo_property_image.respond_to?(:attached?) ? rails_blob_path(seo_property_image, only_path: true) : asset_path(seo_property_image) %>
+<% content_for :seo_image_alt, "#{@propiedad.titulo} en #{@propiedad.comuna.nombre}" %>
 <section class="vian-page-heading">
   <div class="container">
     <%= link_to "← Volver a propiedades", propiedades_path, class: "text-white" %>
@@ -54,10 +59,10 @@
             <span>Contáctanos</span>
           <% end %>
           <%= link_to "Explorar más propiedades", propiedades_path, class: "btn vian-public-button btn-success w-100 rounded-0" %>
-          <% if current_user&.admin? || current_user&.corredor? %>
+          <% if current_user&.admin? || current_user&.super_admin? %>
             <%= link_to "Editar propiedad", edit_propiedad_path(@propiedad), class: "btn btn-outline-secondary w-100 mt-3" %>
           <% end %>
-          <% if current_user&.admin? %>
+          <% if current_user&.admin? || current_user&.super_admin? %>
             <%= button_to "Eliminar propiedad", @propiedad, method: :delete, class: "btn btn-danger w-100 mt-3", data: { turbo_confirm: "¿Estás seguro de eliminar esta propiedad?" } %>
           <% end %>
         </div>

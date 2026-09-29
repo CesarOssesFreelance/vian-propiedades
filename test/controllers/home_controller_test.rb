@@ -2,7 +2,7 @@ require "test_helper"
 
 class HomeControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get home_index_url
+    get root_url
     assert_response :success
     assert_select ".vian-whatsapp[href*='text=Hola%2C+me+interes%C3%B3+una+de+sus+propiedades']", count: 1
     assert_select "a[aria-label='Vian Propiedades en Instagram'][target='_blank']", count: 3

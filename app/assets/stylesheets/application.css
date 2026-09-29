@@ -478,6 +478,39 @@ summary:focus-visible {
   margin: 0;
 }
 
+.vian-private-access {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+}
+
+.vian-private-access svg,
+.vian-footer-private-access svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vian-footer-private-access {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vian-footer-private-access svg {
+  width: 18px;
+  height: 18px;
+}
+
 .vian-social-links {
   display: flex;
   align-items: center;
@@ -538,6 +571,12 @@ summary:focus-visible {
     width: 100%;
     text-align: left;
     white-space: normal;
+  }
+
+  .vian-mobile-nav .vian-private-access {
+    width: 40px;
+    margin-left: 10px;
+    text-align: center;
   }
 
   .vian-social-links-nav {

@@ -4,17 +4,17 @@ class CatalogPermissionsTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   test "visitors cannot access management or mutate records" do
-    [new_propiedad_path, edit_propiedad_path(propiedades(:one)), caracteristicas_path,
-     new_caracteristica_path, edit_caracteristica_path(caracteristicas(:one))].each do |path|
+    [ new_propiedad_path, edit_propiedad_path(propiedades(:one)), caracteristicas_path,
+     new_caracteristica_path, edit_caracteristica_path(caracteristicas(:one)) ].each do |path|
       get path
       assert_redirected_to new_user_session_path
     end
-    assert_no_difference ["Propiedad.count", "Caracteristica.count"] do
-      [propiedades_path, caracteristicas_path].each do |path|
+    assert_no_difference [ "Propiedad.count", "Caracteristica.count" ] do
+      [ propiedades_path, caracteristicas_path ].each do |path|
         post path, params: {}
         assert_redirected_to new_user_session_path
       end
-      [propiedad_path(propiedades(:one)), caracteristica_path(caracteristicas(:one))].each do |path|
+      [ propiedad_path(propiedades(:one)), caracteristica_path(caracteristicas(:one)) ].each do |path|
         patch path, params: {}
         assert_redirected_to new_user_session_path
         delete path
@@ -27,17 +27,17 @@ class CatalogPermissionsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "corredor can create and update both resources but cannot delete in HTML or JSON" do
+  test "admin can create update and delete catalog resources" do
     sign_in users(:two)
-    [new_propiedad_path, edit_propiedad_path(propiedades(:one)), caracteristicas_path,
-     new_caracteristica_path, edit_caracteristica_path(caracteristicas(:one))].each do |path|
+    [ new_propiedad_path, edit_propiedad_path(propiedades(:one)), caracteristicas_path,
+     new_caracteristica_path, edit_caracteristica_path(caracteristicas(:one)) ].each do |path|
       get path
       assert_response :success
     end
     assert_select "a[data-turbo-method=delete]", count: 0
     assert_difference "Propiedad.count", 1 do
       post propiedades_path, params: { propiedad: {
-        titulo: "Creada por corredor", precio: 100, comuna_id: comunas(:one).id,
+        titulo: "Creada por admin", precio: 100, comuna_id: comunas(:one).id,
         tipo_inmueble: "casa", tipo_transaccion: "venta"
       } }
       assert_response :redirect
@@ -53,17 +53,14 @@ class CatalogPermissionsTest < ActionDispatch::IntegrationTest
     assert_redirected_to caracteristicas_path
     assert_equal "Editada", caracteristicas(:one).reload.nombre
 
-    assert_no_difference ["Propiedad.count", "Caracteristica.count"] do
-      [propiedad_path(propiedades(:one)), caracteristica_path(caracteristicas(:one))].each do |path|
-        delete path
-        assert_response :forbidden
-        delete "#{path}.json"
-        assert_response :forbidden
-      end
+    assert_difference "Propiedad.count", -1 do
+      delete propiedad_path(propiedades(:one))
+      assert_response :see_other
     end
-    get propiedad_path(propiedades(:one))
-    assert_select "a[href=?]", edit_propiedad_path(propiedades(:one)), count: 1
-    assert_select "button", text: "Eliminar propiedad", count: 0
+    assert_difference "Caracteristica.count", -1 do
+      delete caracteristica_path(caracteristicas(:one))
+      assert_response :see_other
+    end
   end
 
   test "user without a recognized role cannot manage catalog" do
