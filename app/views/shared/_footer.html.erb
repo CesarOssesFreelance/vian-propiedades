@@ -33,7 +33,10 @@
         ¿Te gustó este sitio? Desarrollado por
         <%= link_to "VOSolutions", "https://vosolutions.cl", target: "_blank", rel: "noopener", class: "vian-footer-development-link" %>
         <%= mail_to "cesar.osses@gmail.com", class: "vian-footer-development-email", aria: { label: "Contactar a VOSolutions por correo" }, title: "Contactar a VOSolutions" do %>
-          <span class="icon-envelope-o" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M3 5.5h18v13H3z" />
+            <path d="m3.5 6 8.5 7 8.5-7" />
+          </svg>
         <% end %>
       </span>
       <small class="vian-footer-credit">Basado en Homeland de Colorlib</small>

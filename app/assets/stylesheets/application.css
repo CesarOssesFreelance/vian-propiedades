@@ -853,8 +853,17 @@ summary:focus-visible {
 .site-footer .vian-footer-development-email {
   display: inline-flex;
   margin-left: 4px;
-  font-size: 0.9em;
-  vertical-align: baseline;
+  vertical-align: -0.15em;
+}
+
+.site-footer .vian-footer-development-email svg {
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .site-footer .vian-footer-development-link:hover,
