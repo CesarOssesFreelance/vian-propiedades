@@ -25,6 +25,7 @@ servers:
 #
 proxy:
   ssl: true
+  response_timeout: 120
   hosts:
     - vianpropiedades.cl
     - www.vianpropiedades.cl

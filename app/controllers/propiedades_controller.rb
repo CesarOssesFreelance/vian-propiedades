@@ -5,8 +5,13 @@ class PropiedadesController < ApplicationController
 
   # GET /propiedades or /propiedades.json
   def index
-    @comunas = Comuna.where(id: Propiedad.select(:comuna_id)).order(:nombre)
-    @propiedades = Propiedad.includes(:comuna).preload(imagenes_attachments: :blob)
+    visible_properties = if current_user&.admin? || current_user&.super_admin?
+      Propiedad.all
+    else
+      Propiedad.where(publicada: true)
+    end
+    @comunas = Comuna.where(id: visible_properties.select(:comuna_id)).order(:nombre)
+    @propiedades = visible_properties.includes(:comuna).preload(imagen_principal_attachment: :blob)
     @propiedades = @propiedades.where(comuna_id: params[:comuna_id]) if params[:comuna_id].present?
     @propiedades = @propiedades.where(tipo_inmueble: params[:tipo_inmueble]) if params[:tipo_inmueble].present?
     if Propiedad.defined_enums.fetch("tipo_transaccion").key?(params[:tipo_transaccion])
@@ -73,6 +78,7 @@ class PropiedadesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_propiedad
       @propiedad = Propiedad.friendly.find(params.expect(:id))
+      raise ActiveRecord::RecordNotFound unless @propiedad.publicada? || user_signed_in?
     end
 
     # Only allow a list of trusted parameters through.

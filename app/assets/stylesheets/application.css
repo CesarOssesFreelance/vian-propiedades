@@ -835,6 +835,35 @@ summary:focus-visible {
   line-height: 1.4;
 }
 
+.vian-footer-development {
+  margin-top: 3px;
+  font-weight: 300;
+}
+
+.site-footer .vian-footer-development-link,
+.site-footer .vian-footer-development-email {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-footer .vian-footer-development-link {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.site-footer .vian-footer-development-email {
+  display: inline-flex;
+  margin-left: 4px;
+  font-size: 0.9em;
+  vertical-align: baseline;
+}
+
+.site-footer .vian-footer-development-link:hover,
+.site-footer .vian-footer-development-link:focus,
+.site-footer .vian-footer-development-email:hover,
+.site-footer .vian-footer-development-email:focus {
+  color: #fff;
+}
+
 .vian-whatsapp:hover,
 .vian-whatsapp:focus {
   color: #fff;

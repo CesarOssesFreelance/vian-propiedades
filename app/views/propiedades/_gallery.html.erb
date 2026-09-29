@@ -9,7 +9,12 @@
     <div class="vian-gallery-stage" aria-label="Fotografías de la propiedad">
       <% photos.each_with_index do |photo, index| %>
         <button type="button" class="vian-gallery-slide" data-property-gallery-target="slide" data-action="property-gallery#open" <%= "hidden" unless index.zero? %> aria-label="Ampliar fotografía <%= index + 1 %>">
-          <%= image_tag photo, alt: "#{propiedad.titulo} · Fotografía #{index + 1}", class: "vian-detail-image", loading: index.zero? ? "eager" : "lazy" %>
+          <%= image_tag photo.variant(:gallery),
+            alt: "#{propiedad.titulo} · Fotografía #{index + 1}",
+            class: "vian-detail-image",
+            loading: index.zero? ? "eager" : "lazy",
+            fetchpriority: index.zero? ? "high" : "low",
+            decoding: "async" %>
         </button>
       <% end %>
       <%= render "propiedades/gallery_arrows", photos: photos %>

@@ -1,4 +1,4 @@
-<%= form_with(model: propiedad, class: "vian-property-form bg-white border p-4 p-md-5") do |form| %>
+<%= form_with(model: propiedad, class: "vian-property-form bg-white border p-4 p-md-5", data: { controller: "image-optimizer", action: "submit->image-optimizer#preventWhileProcessing" }) do |form| %>
   <% if propiedad.errors.any? %>
     <div class="alert alert-danger" role="alert">
       <p>No pudimos guardar la propiedad. Revisa los siguientes datos:</p>
@@ -93,16 +93,16 @@
     <legend class="h4 text-black mb-4">Imágenes</legend>
     <div class="form-group mb-3">
       <%= form.label :imagen_principal, "Imagen principal", class: "text-black" %>
-      <%= form.file_field :imagen_principal, accept: "image/*", class: "form-control vian-file-input", aria: { describedby: "imagen-principal-ayuda" } %>
-      <small id="imagen-principal-ayuda" class="form-text text-muted">Selecciona una imagen. Al editar, una nueva imagen reemplazará la actual.</small>
+      <%= form.file_field :imagen_principal, accept: "image/*", class: "form-control vian-file-input", data: { action: "change->image-optimizer#optimize" }, aria: { describedby: "imagen-principal-ayuda" } %>
+      <small id="imagen-principal-ayuda" class="form-text text-muted">Selecciona una imagen. Las fotografías grandes se optimizan antes de subir. Al editar, una nueva imagen reemplazará la actual.</small>
       <% if propiedad.imagen_principal.attached? %>
         <p class="mt-2 mb-0">Imagen actual: <%= propiedad.imagen_principal.filename %></p>
       <% end %>
     </div>
     <div class="form-group">
       <%= form.label :imagenes, "Imágenes de la galería", class: "text-black" %>
-      <%= form.file_field :imagenes, multiple: true, accept: "image/*", class: "form-control vian-file-input", aria: { describedby: "imagenes-ayuda" } %>
-      <small id="imagenes-ayuda" class="form-text text-muted">Puedes seleccionar varias imágenes. Se agregarán a las existentes.</small>
+      <%= form.file_field :imagenes, multiple: true, accept: "image/*", class: "form-control vian-file-input", data: { action: "change->image-optimizer#optimize" }, aria: { describedby: "imagenes-ayuda" } %>
+      <small id="imagenes-ayuda" class="form-text text-muted">Puedes seleccionar varias imágenes. Las fotografías grandes se optimizan antes de subir y se agregarán a las existentes.</small>
       <% if propiedad.imagenes.attached? %>
         <ul class="mt-2 mb-0">
           <% propiedad.imagenes.each do |imagen| %>
@@ -138,8 +138,10 @@
     </div>
   </fieldset>
 
+  <p class="vian-image-optimizer-status text-muted mb-3" data-image-optimizer-target="status" role="status" aria-live="polite" hidden></p>
+
   <div class="d-flex flex-wrap align-items-center vian-property-actions">
-    <%= form.submit propiedad.persisted? ? "Guardar cambios" : "Crear propiedad", class: "btn btn-primary py-2 px-4 rounded-0" %>
+    <%= form.submit propiedad.persisted? ? "Guardar cambios" : "Crear propiedad", class: "btn btn-primary py-2 px-4 rounded-0", data: { image_optimizer_target: "submit" } %>
     <%= link_to "Cancelar", propiedad.persisted? ? propiedad_path(propiedad) : propiedades_path, class: "btn btn-outline-primary py-2 px-4 rounded-0" %>
   </div>
 <% end %>

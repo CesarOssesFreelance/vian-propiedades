@@ -7,8 +7,11 @@ module PropiedadesHelper
     number_to_currency(propiedad.precio, unit: "$", precision: 0, delimiter: ".", format: "%u%n")
   end
 
-  def imagen_propiedad(propiedad)
-    propiedad.imagenes.first || "img_#{(propiedad.id % 8) + 1}.jpg"
+  def imagen_propiedad(propiedad, variant: nil)
+    return "img_#{(propiedad.id % 8) + 1}.jpg" unless propiedad.imagen_principal.attached?
+
+    attachment = propiedad.imagen_principal.attachment
+    variant ? attachment.variant(variant) : attachment
   end
 
   def propiedad_whatsapp_url(propiedad)

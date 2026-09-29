@@ -1,8 +1,14 @@
 <% content_for :title, "#{@propiedad.titulo} | Vian Propiedades" %>
 <% content_for :seo_description, truncate(strip_tags(@propiedad.descripcion.presence || "#{tipo_propiedad(@propiedad)} en #{@propiedad.comuna.nombre}, disponible para #{@propiedad.tipo_transaccion}."), length: 160, separator: " ") %>
 <% content_for :seo_canonical_path, propiedad_path(@propiedad) %>
-<% seo_property_image = imagen_propiedad(@propiedad) %>
-<% content_for :seo_image, seo_property_image.respond_to?(:attached?) ? rails_blob_path(seo_property_image, only_path: true) : asset_path(seo_property_image) %>
+<% seo_property_image = if @propiedad.imagen_principal.attached?
+    @propiedad.imagen_principal.attachment
+  elsif @propiedad.imagenes.attached?
+    @propiedad.imagenes.first
+  else
+    imagen_propiedad(@propiedad)
+  end %>
+<% content_for :seo_image, seo_property_image.is_a?(ActiveStorage::Attachment) ? rails_representation_path(seo_property_image.variant(:social), only_path: true) : asset_path(seo_property_image) %>
 <% content_for :seo_image_alt, "#{@propiedad.titulo} en #{@propiedad.comuna.nombre}" %>
 <section class="vian-page-heading">
   <div class="container">

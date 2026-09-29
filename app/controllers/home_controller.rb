@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
-    @propiedades_hero = Propiedad.where(publicada: true).preload(imagenes_attachments: :blob)
+    @propiedades_hero = Propiedad.where(publicada: true).preload(imagen_principal_attachment: :blob)
                                 .order(destacada: :desc, created_at: :desc, id: :desc).limit(10)
-    @propiedades = Propiedad.where(publicada: true).includes(:comuna).preload(imagenes_attachments: :blob)
+    @propiedades = Propiedad.where(publicada: true).includes(:comuna).preload(imagen_principal_attachment: :blob)
                             .order(destacada: :desc, created_at: :desc, id: :desc).limit(6)
     @comunas = Comuna.where(id: Propiedad.select(:comuna_id)).order(:nombre)
   end

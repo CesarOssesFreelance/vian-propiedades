@@ -39,6 +39,21 @@ class SeoTest < ActionDispatch::IntegrationTest
     assert_select "link[rel=canonical][href='https://vianpropiedades.cl/propiedades']", count: 1
   end
 
+  test "property metadata uses an attached gallery image" do
+    property = propiedades(:one)
+    property.imagenes.attach(
+      io: File.open(Rails.root.join("app/assets/images/img_1.jpg")),
+      filename: "propiedad.jpg",
+      content_type: "image/jpeg"
+    )
+    host! "vianpropiedades.cl"
+
+    get propiedad_path(property)
+
+    assert_response :success
+    assert_select "meta[property='og:image'][content*='/rails/active_storage/representations/']", count: 1
+  end
+
   test "legacy home URL redirects permanently to the canonical home" do
     get home_index_path
 

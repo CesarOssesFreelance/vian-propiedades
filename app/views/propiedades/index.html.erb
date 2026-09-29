@@ -19,7 +19,7 @@
       <p class="mb-0"><%= @propiedades.size %> propiedades encontradas</p>
     </div>
     <div class="row" id="propiedades">
-      <%= render partial: "shared/card_propiedades", collection: @propiedades, as: :propiedad %>
+      <%= render partial: "shared/card_propiedades", collection: @propiedades, as: :propiedad, locals: { prioritize_first: true } %>
     </div>
     <% if @propiedades.empty? %>
       <div class="bg-white p-5 text-center">

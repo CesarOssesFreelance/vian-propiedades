@@ -29,6 +29,13 @@
     </div>
     <p class="mt-5 mb-0 text-center">
       <strong class="d-block">© <%= Date.current.year %> Vian Propiedades</strong>
+      <span class="vian-footer-development d-block">
+        ¿Te gustó este sitio? Desarrollado por
+        <%= link_to "VOSolutions", "https://vosolutions.cl", target: "_blank", rel: "noopener", class: "vian-footer-development-link" %>
+        <%= mail_to "cesar.osses@gmail.com", class: "vian-footer-development-email", aria: { label: "Contactar a VOSolutions por correo" }, title: "Contactar a VOSolutions" do %>
+          <span class="icon-envelope-o" aria-hidden="true"></span>
+        <% end %>
+      </span>
       <small class="vian-footer-credit">Basado en Homeland de Colorlib</small>
     </p>
   </div>

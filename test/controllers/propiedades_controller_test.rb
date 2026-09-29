@@ -13,6 +13,35 @@ class PropiedadesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "catalog hides unpublished properties from visitors and shows them to administrators" do
+    hidden = propiedades(:two)
+    hidden.update!(titulo: "Propiedad sin publicar", publicada: false)
+    sign_out users(:one)
+
+    get propiedades_url
+
+    assert_response :success
+    assert_select ".property-title", text: hidden.titulo, count: 0
+
+    sign_in users(:one)
+    get propiedades_url
+
+    assert_response :success
+    assert_select ".property-title", text: hidden.titulo, count: 1
+  end
+
+  test "unpublished property is hidden from visitors but available to administrators" do
+    @propiedad.update!(publicada: false)
+    sign_out users(:one)
+
+    get propiedad_url(@propiedad)
+    assert_response :not_found
+
+    sign_in users(:one)
+    get propiedad_url(@propiedad)
+    assert_response :success
+  end
+
   test "should get new" do
     get new_propiedad_url
     assert_response :success
@@ -29,6 +58,15 @@ class PropiedadesControllerTest < ActionDispatch::IntegrationTest
   test "should show propiedad" do
     get propiedad_url(@propiedad)
     assert_response :success
+  end
+
+  test "property detail renders when it has a main image" do
+    @propiedad.imagen_principal.attach(uploaded_property_image)
+
+    get propiedad_url(@propiedad)
+
+    assert_response :success
+    assert_select "meta[property='og:image'][content*='/rails/active_storage/']"
   end
 
   test "should get edit" do
@@ -184,9 +222,11 @@ class PropiedadesControllerTest < ActionDispatch::IntegrationTest
 
   test "creates property with main image and multiple gallery images" do
     get new_propiedad_url
-    assert_select "form[enctype='multipart/form-data']" do
-      assert_select "input[type=file][name='propiedad[imagen_principal]']:not([multiple])"
-      assert_select "input[type=file][name='propiedad[imagenes][]'][multiple]"
+    assert_select "form[enctype='multipart/form-data'][data-controller~='image-optimizer']" do
+      assert_select "input[type=file][name='propiedad[imagen_principal]'][data-action*='image-optimizer#optimize']:not([multiple])"
+      assert_select "input[type=file][name='propiedad[imagenes][]'][data-action*='image-optimizer#optimize'][multiple]"
+      assert_select "[data-image-optimizer-target='status'][role='status']"
+      assert_select "[data-image-optimizer-target='submit']"
     end
 
     post propiedades_url, params: { propiedad: {

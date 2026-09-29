@@ -7,10 +7,16 @@
           <span class="offer-type bg-primary">Destacada</span>
         <% end %>
       </div>
-      <%= image_tag imagen_propiedad(propiedad), alt: propiedad.titulo, class: "img-fluid vian-card-image", loading: "lazy" %>
+      <% card_is_first = local_assigns.fetch(:prioritize_first, false) && defined?(propiedad_counter) && propiedad_counter.zero? %>
+      <%= image_tag imagen_propiedad(propiedad, variant: :card),
+        alt: propiedad.titulo,
+        class: "img-fluid vian-card-image",
+        loading: card_is_first ? "eager" : "lazy",
+        fetchpriority: card_is_first ? "high" : "low",
+        decoding: "async" %>
     <% end %>
     <div class="p-4 property-body">
-      <% unless propiedad.imagenes.any? %>
+      <% unless propiedad.imagen_principal.attached? %>
         <small class="text-muted">Imagen referencial</small>
       <% end %>
       <h2 class="property-title"><%= link_to propiedad.titulo, propiedad %></h2>

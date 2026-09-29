@@ -6,7 +6,12 @@
         aria: { label: "Ver propiedad: #{propiedad.titulo}", hidden: !index.zero? },
         tabindex: (index.zero? ? 0 : -1),
         data: { hero_carousel_target: "slide" } do %>
-        <%= image_tag imagen_propiedad(propiedad), alt: "", class: "vian-hero-image" %>
+        <%= image_tag imagen_propiedad(propiedad, variant: :hero),
+          alt: "",
+          class: "vian-hero-image",
+          loading: index.zero? ? "eager" : "lazy",
+          fetchpriority: index.zero? ? "high" : "low",
+          decoding: "async" %>
       <% end %>
     <% end %>
 

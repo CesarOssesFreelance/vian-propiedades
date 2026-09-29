@@ -16,4 +16,21 @@ class PropiedadTest < ActiveSupport::TestCase
     property.update!(titulo: "Casa renovada")
     assert_equal "casa-en-nunoa", property.slug
   end
+  test "generates named WebP variants with Vips" do
+    property = propiedades(:one)
+    property.imagen_principal.attach(
+      io: File.open(Rails.root.join("app/assets/images/img_1.jpg")),
+      filename: "source.jpg",
+      content_type: "image/jpeg"
+    )
+
+    variant = property.imagen_principal.variant(:card).processed
+    output = Vips::Image.new_from_buffer(variant.download, "")
+
+    assert_equal "image/webp", variant.image.content_type
+    assert_equal 720, output.width
+    assert_equal 470, output.height
+    assert_operator variant.image.byte_size, :<, property.imagen_principal.blob.byte_size
+  end
+
 end

@@ -1,7 +1,7 @@
 <div class="vian-gallery-thumbnails" aria-label="Elegir fotografía">
   <% photos.each_with_index do |photo, index| %>
     <button type="button" data-property-gallery-target="thumbnail" data-action="property-gallery#select" data-property-gallery-index-param="<%= index %>" aria-label="Ver fotografía <%= index + 1 %>" aria-pressed="<%= index.zero? %>">
-      <%= image_tag photo, alt: "", loading: "lazy" %>
+      <%= image_tag photo.variant(:thumbnail), alt: "", loading: "lazy", decoding: "async" %>
     </button>
   <% end %>
 </div>
