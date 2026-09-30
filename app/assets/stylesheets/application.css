@@ -840,25 +840,45 @@ summary:focus-visible {
   font-weight: 300;
 }
 
+.vian-footer-development-line,
+.vian-footer-contact-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.vian-footer-contact-line {
+  margin-top: 2px;
+}
+
 .site-footer .vian-footer-development-link,
 .site-footer .vian-footer-development-email {
   color: rgba(255, 255, 255, 0.82);
 }
 
 .site-footer .vian-footer-development-link {
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+}
+
+.vian-footer-development-logo {
+  display: block;
+  width: 130px;
+  height: auto;
 }
 
 .site-footer .vian-footer-development-email {
   display: inline-flex;
-  margin-left: 4px;
-  vertical-align: -0.15em;
+  align-items: center;
+  gap: 5px;
 }
 
 .site-footer .vian-footer-development-email svg {
   width: 1em;
   height: 1em;
+  flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.7;
