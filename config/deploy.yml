@@ -30,7 +30,7 @@ proxy:
     - vianpropiedades.cl
     - www.vianpropiedades.cl
 
-deploy_timeout: 120
+deploy_timeout: 300
 
 # Where you keep your container images.
 registry:
